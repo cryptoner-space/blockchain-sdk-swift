@@ -6,7 +6,7 @@ import Foundation
 
 /// Main structure blockchain Sdk
 @available(iOS 13.0, *)
-public enum Blockchain: String, Codable {
+public enum Blockchain: String, Codable, CaseIterable {
     
     /// Bitcoin
     case bitcoin
