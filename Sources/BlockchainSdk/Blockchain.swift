@@ -8,9 +8,6 @@ import Foundation
 @available(iOS 13.0, *)
 public enum Blockchain: String, Codable, CaseIterable {
     
-    /// Multinetwork blockchain
-    case multinetwork
-    
     /// Bitcoin
     case bitcoin
     
@@ -56,7 +53,7 @@ extension Blockchain {
     
     public var currencySymbol: String {
         switch self {
-        case .multinetwork, .undefined:
+        case .undefined:
             return ""
         case .bitcoin:
             return "BTC"
@@ -77,7 +74,7 @@ extension Blockchain {
     
     public var decimalCount: Int {
         switch self {
-        case .multinetwork, .undefined:
+        case .undefined:
             return 0
         case .bitcoin, .binance:
             return 8
