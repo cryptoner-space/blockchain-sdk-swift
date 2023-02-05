@@ -14,6 +14,7 @@ extension Blockchain {
         case transaction
     }
     
+    @available(iOS 13.0, *)
     public struct Explore: Codable {
         
         /// Base url for exploer

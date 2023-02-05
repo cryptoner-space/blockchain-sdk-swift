@@ -41,22 +41,33 @@ extension Blockchain {
     public struct CoinUnion {
         
         /// Token Enum structure
-        let coin: Coin
+        public let coin: Coin
         
         /// Link for Icon token
-        let iconUrl: String?
+        public let iconUrl: String?
         
         /// Symbol of name token
-        let symbol: String
+        public let symbol: String
         
         /// Name of token
-        let name: String
+        public let name: String
         
         /// Description of token
-        let description: String?
+        public let description: String?
         
         /// Rank of global community
-        let rank: Int
+        public let rank: Int
+        
+        // MARK: - Init
+        
+        public init(coin: Coin, iconUrl: String?, symbol: String, name: String, description: String?, rank: Int) {
+            self.coin = coin
+            self.iconUrl = iconUrl
+            self.symbol = symbol
+            self.name = name
+            self.description = description
+            self.rank = rank
+        }
         
     }
 

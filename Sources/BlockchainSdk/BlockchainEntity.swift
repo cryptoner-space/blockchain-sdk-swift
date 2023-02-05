@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol BlockchainEntity: Codable {
+@available(iOS 13.0, *)
+public protocol BlockchainEntity: Codable {
     
     /// Token / Coin Enum structure
     var id: String { get set }
