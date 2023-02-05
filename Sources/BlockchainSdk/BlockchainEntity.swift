@@ -13,31 +13,31 @@ extension Blockchain {
     public struct BlockchainEntity: Codable {
         
         /// Token / Coin Enum structure
-        let id: String
+        public let id: String
         
         /// Type of entity blockchain
-        let type: BlockchainEntityType
+        public let type: BlockchainEntityType
         
         /// Parent network blockchain
-        let blockchain: Blockchain
+        public let blockchain: Blockchain
         
         /// Link for Icon token
-        let iconUrl: String?
+        public let iconUrl: String?
         
         /// Symbol of name token
-        let symbol: String
+        public let symbol: String
         
         /// Name of token
-        let name: String
+        public let name: String
         
         /// Description of token
-        let description: String?
+        public let description: String?
         
         /// Rank of global community
-        let rank: Int
+        public let rank: Int
         
         /// External id of db or any usage
-        let externalId: String?
+        public let externalId: String?
         
         // MARK: - Init
         
