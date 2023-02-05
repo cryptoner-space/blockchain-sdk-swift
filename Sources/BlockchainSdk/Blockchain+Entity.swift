@@ -10,7 +10,7 @@ import Foundation
 extension Blockchain {
     
     @available(iOS 13.0, *)
-    public struct BlockchainEntity: Codable {
+    public struct Entity: Codable {
         
         /// Token / Coin Enum structure
         public let id: String
