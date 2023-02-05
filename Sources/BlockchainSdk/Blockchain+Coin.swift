@@ -41,11 +41,11 @@ extension Blockchain {
 
     /// Main structure blockchain Sdk
     @available(iOS 13.0, *)
-    public struct CoinUnion: BlockchainEntity {
+    public struct CoinUnion: Codable {
         
         // MARK: - Properties
         
-        public var id: String
+        public var coin: Coin
         public var type: BlockchainEntityType
         public var blockchain: Blockchain
         public var iconUrl: String?
@@ -68,7 +68,7 @@ extension Blockchain {
             rank: Int,
             externalId: String? = nil
         ) {
-            self.id = coin.rawValue
+            self.coin = coin
             self.type = type
             self.blockchain = blockchain
             self.iconUrl = iconUrl
@@ -77,16 +77,6 @@ extension Blockchain {
             self.description = description
             self.rank = rank
             self.externalId = externalId
-        }
-        
-        // MARK: - Implementation
-        
-        public func executeToken() throws -> Blockchain.Token {
-            throw Blockchain.EntityError.errorExecution
-        }
-        
-        public func executeCoin() throws -> Blockchain.Coin {
-            return .init(rawValue: self.id) ?? .none
         }
         
     }
