@@ -37,4 +37,19 @@ public protocol BlockchainEntity: Codable {
     /// External id of db or any usage
     var externalId: String? { get set }
     
+    // MARK: - Helper
+    
+    /// Execute token value
+    /// - Returns: Token value
+    func executeToken() throws -> Blockchain.Token
+    
+    /// Execute coin value
+    /// - Returns: Coin value
+    func executeCoin() throws -> Blockchain.Coin
+    
+}
+
+public extension BlockchainEntity {
+    func executeToken() throws -> Blockchain.Token { throw Blockchain.EntityError.errorExecution }
+    func executeCoin() throws -> Blockchain.Token { throw Blockchain.EntityError.errorExecution }
 }

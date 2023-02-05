@@ -12,40 +12,66 @@ extension Blockchain {
     /// Main structure blockchain Sdk
     @available(iOS 13.0, *)
     public enum Token: String, Codable, CaseIterable {
+        
+        /// Undefined token
         case none
+        
+        /// Stablecoin Thether
+        case USDT
+        
+        /// Stablecoin USD Coin
+        case USDC
+        
     }
 
     /// Main structure blockchain Sdk
     @available(iOS 13.0, *)
-    public struct TokenUnion {
+    public struct TokenUnion: BlockchainEntity {
         
-        /// Token Enum structure
-        public let token: Token
+        // MARK: - Properties
         
-        /// Link for Icon token
-        public let iconUrl: String?
-        
-        /// Symbol of name token
-        public let symbol: String
-        
-        /// Name of token
-        public let name: String
-        
-        /// Description of token
-        public let description: String?
-        
-        /// Rank of global community
-        public let rank: Int
+        public var id: String
+        public var type: BlockchainEntityType
+        public var blockchain: Blockchain
+        public var iconUrl: String?
+        public var symbol: String
+        public var name: String
+        public var description: String?
+        public var rank: Int
+        public var externalId: String?
         
         // MARK: - Init
         
-        public init(token: Token, iconUrl: String?, symbol: String, name: String, description: String?, rank: Int) {
-            self.token = token
+        public init(
+            token: Token,
+            type: BlockchainEntityType,
+            blockchain: Blockchain,
+            iconUrl: String? = nil,
+            symbol: String,
+            name: String,
+            description: String? = nil,
+            rank: Int,
+            externalId: String? = nil
+        ) {
+            self.id = token.rawValue
+            self.type = type
+            self.blockchain = blockchain
             self.iconUrl = iconUrl
             self.symbol = symbol
             self.name = name
             self.description = description
             self.rank = rank
+            self.externalId = externalId
+        }
+        
+        // MARK: - Implementation
+        
+        public func executeToken() throws -> Blockchain.Token {
+            return .init(rawValue: self.id) ?? .none
+        }
+        
+        public func executeCoin() throws -> Blockchain.Coin {
+            throw Blockchain.EntityError.errorExecution
         }
         
     }

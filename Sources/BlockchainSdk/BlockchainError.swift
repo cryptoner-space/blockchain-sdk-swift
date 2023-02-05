@@ -13,4 +13,8 @@ extension Blockchain {
         case errorMakeUrl
     }
     
+    public enum EntityError: Error {
+        case errorExecution
+    }
+    
 }
