@@ -9,6 +9,51 @@ import Foundation
 
 extension Blockchain {
     
+    // MARK: - EntityType
+    
+    public enum EntityType: String, Codable, CaseIterable {
+        case coin, token, custom
+    }
+    
+    // MARK: - Factory
+    
+    /// Make entity data Coin or Token
+    /// - Parameters:
+    ///   - rawValue: Raw value coin or token
+    ///   - blockchain: Blockchain network for rawValue
+    ///   - type: Type of Entity
+    /// - Returns: Entity model
+    static func makeEntity(
+        rawValue: String,
+        blockchain: Blockchain,
+        type: EntityType
+    ) throws -> Entity {
+        switch type {
+        case .coin:
+            return try self.makeCoin(rawValue: rawValue, blockchain: blockchain)
+        case .token:
+            return try self.makeToken(rawValue: rawValue, blockchain: blockchain)
+        default:
+            throw Blockchain.EntityError.errorMaking
+        }
+    }
+    
+    static func makeCoin(
+        rawValue: String,
+        blockchain: Blockchain
+    ) throws -> Entity {
+        throw Blockchain.EntityError.errorMaking
+    }
+    
+    static func makeToken(
+        rawValue: String,
+        blockchain: Blockchain
+    ) throws -> Entity {
+        throw Blockchain.EntityError.errorMaking
+    }
+    
+    // MARK: - Entity
+    
     @available(iOS 13.0, *)
     public struct Entity: Codable {
         
