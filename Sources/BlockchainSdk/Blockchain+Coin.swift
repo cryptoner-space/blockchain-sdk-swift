@@ -13,9 +13,6 @@ extension Blockchain {
     @available(iOS 13.0, *)
     public enum Coin: String, Codable, CaseIterable {
         
-        /// Undefined coin
-        case none
-        
         /// Bitcoin
         case BTC
         

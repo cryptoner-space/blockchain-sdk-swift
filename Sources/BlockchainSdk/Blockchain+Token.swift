@@ -13,9 +13,6 @@ extension Blockchain {
     @available(iOS 13.0, *)
     public enum Token: String, Codable, CaseIterable {
         
-        /// Undefined token
-        case none
-        
         /// Stablecoin Thether
         case USDT
         
