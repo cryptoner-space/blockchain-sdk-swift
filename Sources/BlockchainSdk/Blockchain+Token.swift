@@ -28,7 +28,7 @@ extension Blockchain {
         // MARK: - Properties
         
         public var token: Token
-        public var type: BlockchainEntityType
+        public var type: Blockchain.Currency
         public var blockchain: Blockchain
         public var iconUrl: String?
         public var symbol: String
@@ -41,7 +41,7 @@ extension Blockchain {
         
         public init(
             token: Token,
-            type: BlockchainEntityType,
+            type: Blockchain.Currency,
             blockchain: Blockchain,
             iconUrl: String? = nil,
             symbol: String,
