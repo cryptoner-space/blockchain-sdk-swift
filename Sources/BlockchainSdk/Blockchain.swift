@@ -52,24 +52,7 @@ extension Blockchain {
     }
     
     public var currencySymbol: String {
-        switch self {
-        case .undefined:
-            return ""
-        case .bitcoin:
-            return "BTC"
-        case .ethereum:
-            return "ETH"
-        case .binance:
-            return "BNB"
-        case .solana:
-            return "SOL"
-        case .tron:
-            return "TRX"
-        case .toncoin:
-            return "TON"
-        case .ripple:
-            return "XRP"
-        }
+        (try? Blockchain.Coin(self).rawValue) ?? ""
     }
     
     public var decimalCount: Int {

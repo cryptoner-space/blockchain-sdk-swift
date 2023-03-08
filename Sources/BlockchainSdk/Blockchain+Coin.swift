@@ -34,6 +34,50 @@ extension Blockchain {
         /// Binance
         case BNB
         
+        // MARK: - Init
+        
+        public init(_ blockchain: Blockchain) throws {
+            switch blockchain {
+            case .bitcoin:
+                self = .BTC
+            case .ethereum:
+                self = .ETH
+            case .toncoin:
+                self = .TON
+            case .solana:
+                self = .SOL
+            case .tron:
+                self = .TRX
+            case .ripple:
+                self = .XRP
+            case .binance:
+                self = .BNB
+            case .undefined:
+                throw CoinError.undefined
+            }
+        }
+        
+        // MARK: - Helper
+        
+        public var blockchain: Blockchain {
+            switch self {
+            case .BTC:
+                return .bitcoin
+            case .ETH:
+                return .ethereum
+            case .TON:
+                return .toncoin
+            case .SOL:
+                return .solana
+            case .TRX:
+                return .tron
+            case .XRP:
+                return .ripple
+            case .BNB:
+                return .binance
+            }
+        }
+        
     }
 
     /// Main structure blockchain Sdk
@@ -78,5 +122,13 @@ extension Blockchain {
         
     }
 
+    
+}
+
+extension Blockchain.Coin {
+    
+    public enum CoinError: Error {
+        case undefined
+    }
     
 }
