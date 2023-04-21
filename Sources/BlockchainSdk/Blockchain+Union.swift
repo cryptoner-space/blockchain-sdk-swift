@@ -71,6 +71,17 @@ extension Blockchain {
             return value
         }
         
+        func amount(value: Decimal) throws -> Amount {
+            switch type {
+            case .coin:
+                return try .init(type: .coin(self.coin()), value: value)
+            case .token:
+                return try .init(type: .token(self.token(), blockchain), value: value)
+            default:
+                throw Blockchain.EntityError.errorAmount
+            }
+        }
+        
     }
     
 }
