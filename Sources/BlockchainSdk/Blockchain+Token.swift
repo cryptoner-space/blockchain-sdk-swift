@@ -21,47 +21,5 @@ extension Blockchain {
         
     }
 
-    /// Main structure blockchain Sdk
-    @available(iOS 13.0, *)
-    public struct TokenUnion: Codable {
-        
-        // MARK: - Properties
-        
-        public var token: Token
-        public var type: Blockchain.Currency
-        public var blockchain: Blockchain
-        public var iconUrl: String?
-        public var symbol: String
-        public var name: String
-        public var description: String?
-        public var rank: Int
-        public var externalId: String?
-        
-        // MARK: - Init
-        
-        public init(
-            token: Token,
-            type: Blockchain.Currency,
-            blockchain: Blockchain,
-            iconUrl: String? = nil,
-            symbol: String,
-            name: String,
-            description: String? = nil,
-            rank: Int,
-            externalId: String? = nil
-        ) {
-            self.token = token
-            self.type = type
-            self.blockchain = blockchain
-            self.iconUrl = iconUrl
-            self.symbol = symbol
-            self.name = name
-            self.description = description
-            self.rank = rank
-            self.externalId = externalId
-        }
-        
-    }
-
     
 }
