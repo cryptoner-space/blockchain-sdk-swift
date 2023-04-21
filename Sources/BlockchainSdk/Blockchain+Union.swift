@@ -18,7 +18,7 @@ extension Blockchain {
         public var type: Blockchain.Currency
         public var blockchain: Blockchain
         public var value: String
-        public var icon: String?
+        public var iconUrl: String?
         public var symbol: String
         public var name: String
         public var description: String?
@@ -31,7 +31,7 @@ extension Blockchain {
             type: Blockchain.Currency,
             blockchain: Blockchain,
             value: String,
-            icon: String? = nil,
+            iconUrl: String? = nil,
             symbol: String,
             name: String,
             description: String? = nil,
@@ -41,7 +41,7 @@ extension Blockchain {
             self.type = type
             self.blockchain = blockchain
             self.value = value
-            self.icon = icon
+            self.iconUrl = iconUrl
             self.symbol = symbol
             self.name = name
             self.description = description
