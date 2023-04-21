@@ -49,6 +49,28 @@ extension Blockchain {
             self.externalId = externalId
         }
         
+        // MARK: - Helpers
+        
+        /// Execute token value
+        /// - Returns: Token value
+        func token() throws -> Blockchain.Token {
+            guard let value = Blockchain.Token.init(rawValue: self.value) else {
+                throw Blockchain.EntityError.errorExecution
+            }
+            
+            return value
+        }
+        
+        /// Execute coin value
+        /// - Returns: Coin value
+        func coin() throws -> Blockchain.Coin {
+            guard let value = Blockchain.Coin.init(rawValue: self.value) else {
+                throw Blockchain.EntityError.errorExecution
+            }
+            
+            return value
+        }
+        
     }
     
 }
