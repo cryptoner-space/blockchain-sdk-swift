@@ -11,7 +11,7 @@ extension Blockchain {
     
     // MARK: - Currency
     
-    public enum Currency: String, Codable, CaseIterable {
+    public enum CurrencyType: String, Codable, CaseIterable {
         case coin, token, custom
     }
     
