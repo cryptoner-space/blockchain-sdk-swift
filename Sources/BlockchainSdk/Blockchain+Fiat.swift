@@ -22,7 +22,7 @@ extension Blockchain {
             self.externalId = externalId
         }
         
-        func amount(value: Decimal) throws -> Amount {
+        public func amount(value: Decimal) throws -> Amount {
             return .init(type: .fiat(3, symbol, sign), value: value)
         }
     }
