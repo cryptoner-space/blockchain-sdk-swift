@@ -15,7 +15,7 @@ extension Blockchain {
     
     public enum EntityError: Error {
         case errorExecution
-        case errorMaking
+        case errorMakingBlockchainCrypto
         case errorAmount
     }
     
