@@ -14,7 +14,8 @@ extension Blockchain {
         public enum AmountType {
             case coin(_ type: Blockchain.Coin)
             case token(_ type: Blockchain.Token, _ blockchain: Blockchain)
-            case custom(_ decimals: Int)
+            case fiat(_ decimals: Int, _ symbol: String, _ sign: String?)
+            case custom(_ decimals: Int, _ symbol: String, _ sign: String?)
         }
         
         // MARK: - Public Properties
@@ -54,20 +55,6 @@ extension Blockchain {
         
         // MARK: - Init
         
-        public init(
-            type: AmountType,
-            symbol: String,
-            sign: String? = nil,
-            value: Decimal,
-            decimals: Int
-        ) {
-            self.type = type
-            self.currencySymbol = symbol
-            self.currencySign = sign
-            self.value = value
-            self.decimals = decimals
-        }
-        
         public init(type: AmountType, value: Decimal) {
             self.type = type
             self.value = value
@@ -81,9 +68,13 @@ extension Blockchain {
                 self.currencySymbol = value.rawValue
                 self.currencySign = nil
                 self.decimals = blockchain.decimalCount
-            case .custom(let decimals):
-                self.currencySymbol = ""
-                self.currencySign = nil
+            case .fiat(let decimals, let symbol, let sign):
+                self.currencySymbol = symbol
+                self.currencySign = sign
+                self.decimals = decimals
+            case .custom(let decimals, let symbol, let sign):
+                self.currencySymbol = symbol
+                self.currencySign = sign
                 self.decimals = decimals
             }
         }
@@ -155,8 +146,10 @@ extension Blockchain.Amount.AmountType: Equatable, Hashable {
             hasher.combine(blockchain.hashValue)
         case .token(let value, _):
             hasher.combine(value.hashValue)
-        case .custom(let value):
-            hasher.combine(value.hashValue)
+        case .fiat(_, let symbol, _):
+            hasher.combine(symbol.hashValue)
+        case .custom(_, let symbol, _):
+            hasher.combine(symbol.hashValue)
         }
     }
     
