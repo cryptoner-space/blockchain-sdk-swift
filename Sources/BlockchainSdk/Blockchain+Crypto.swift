@@ -53,7 +53,7 @@ extension Blockchain {
         
         /// Execute token value
         /// - Returns: Token value
-        func token() throws -> Blockchain.Token {
+        public func token() throws -> Blockchain.Token {
             guard let value = Blockchain.Token.init(rawValue: self.value) else {
                 throw Blockchain.EntityError.errorExecution
             }
@@ -63,7 +63,7 @@ extension Blockchain {
         
         /// Execute coin value
         /// - Returns: Coin value
-        func coin() throws -> Blockchain.Coin {
+        public func coin() throws -> Blockchain.Coin {
             guard let value = Blockchain.Coin.init(rawValue: self.value) else {
                 throw Blockchain.EntityError.errorExecution
             }

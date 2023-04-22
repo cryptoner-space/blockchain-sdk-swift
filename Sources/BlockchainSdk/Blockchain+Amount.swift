@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BigInt
 
 extension Blockchain {
     
@@ -51,6 +52,18 @@ extension Blockchain {
         
         public var doubleValue: Double {
             return NSDecimalNumber(decimal: self.value).doubleValue
+        }
+        
+        public var bigUIntValue: BigUInt? {
+            if isZero {
+                return BigUInt.zero
+            }
+            
+            if value == Decimal.greatestFiniteMagnitude {
+                return BigUInt(2).power(256) - 1
+            }
+
+            return BigUInt.parseToBigUInt("\(value)", decimals: decimals)
         }
         
         // MARK: - Init
