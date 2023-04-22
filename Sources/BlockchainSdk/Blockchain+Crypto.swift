@@ -11,7 +11,7 @@ extension Blockchain {
     
     /// Main structure blockchain Sdk
     @available(iOS 13.0, *)
-    public struct Union: Codable {
+    public struct Crypto: Codable {
         
         // MARK: - Properties
         
