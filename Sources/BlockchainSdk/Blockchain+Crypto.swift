@@ -71,7 +71,7 @@ extension Blockchain {
             return value
         }
         
-        func amount(value: Decimal) throws -> Amount {
+        public func amount(value: Decimal) throws -> Amount {
             switch type {
             case .coin:
                 return try .init(type: .coin(self.coin()), value: value)
