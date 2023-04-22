@@ -74,4 +74,8 @@ extension Blockchain {
         return pow(Decimal(10), decimalCount)
     }
     
+    public func decimalRate(per value: Decimal) -> Decimal {
+        value * Decimal(pow(10.0, -Double(decimalCount)))
+    }
+    
 }

@@ -161,7 +161,7 @@ extension Blockchain.Amount {
         rate: Decimal
     ) throws -> Blockchain.Amount {
         let cryptoValue = try crypto.amount(value: value)
-        let fiatRateValue = cryptoValue.value * rate
+        let fiatRateValue = cryptoValue.value * crypto.blockchain.decimalRate(per: rate)
         return try fiat.amount(value: max(fiatRateValue, 0.01).rounded(scale: 2, roundingMode: .plain))
     }
     
