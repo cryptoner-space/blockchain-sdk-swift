@@ -22,7 +22,7 @@ extension Blockchain {
         public var symbol: String
         public var name: String
         public var description: String?
-        public var rank: Int
+        public var rank: Int?
         public var externalId: String?
         
         // MARK: - Init
@@ -35,7 +35,7 @@ extension Blockchain {
             symbol: String,
             name: String,
             description: String? = nil,
-            rank: Int,
+            rank: Int? = 0,
             externalId: String? = nil
         ) {
             self.type = type
