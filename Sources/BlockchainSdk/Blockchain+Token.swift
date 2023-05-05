@@ -19,6 +19,17 @@ extension Blockchain {
         /// Stablecoin USD Coin
         case USDC
         
+        // MARK: - Implementation
+        
+        var blockchains: [Blockchain] {
+            switch self {
+            case .USDT:
+                return [.ethereum]
+            default:
+                return []
+            }
+        }
+        
     }
 
     
