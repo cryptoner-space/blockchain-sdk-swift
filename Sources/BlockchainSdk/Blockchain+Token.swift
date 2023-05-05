@@ -21,7 +21,7 @@ extension Blockchain {
         
         // MARK: - Implementation
         
-        var blockchains: [Blockchain] {
+        public var blockchains: [Blockchain] {
             switch self {
             case .USDT:
                 return [.ethereum]
