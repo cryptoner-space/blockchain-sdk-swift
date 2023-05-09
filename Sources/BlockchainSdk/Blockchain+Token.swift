@@ -24,13 +24,46 @@ extension Blockchain {
         public var blockchains: [Blockchain] {
             switch self {
             case .USDT:
-                return [.ethereum]
+                return [.ethereum, .tron]
             default:
                 return []
             }
         }
         
+        public var symbol: String {
+            return self.rawValue.uppercased()
+        }
+        
+        public func typeName(blockchain: Blockchain) throws -> TypeName {
+            guard let typeName = TypeName(blockchain) else {
+                throw Blockchain.EntityError.errorExecution
+            }
+            
+            return typeName
+        }
+        
     }
 
+    
+}
+
+extension Blockchain.Token {
+    
+    public enum TypeName: String, Codable {
+        case ERC20, BEP20, TRC20, TON, BEP2
+        
+        public init?(_ blockchain: Blockchain) {
+            switch blockchain {
+            case .ethereum:
+                self = .ERC20
+            case .binance:
+                self = .BEP2
+            case .tron:
+                self = .TRC20
+            default:
+                return nil
+            }
+        }
+    }
     
 }

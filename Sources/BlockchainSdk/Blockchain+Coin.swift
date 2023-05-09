@@ -78,6 +78,10 @@ extension Blockchain {
             }
         }
         
+        public var symbol: String {
+            return self.rawValue.uppercased()
+        }
+        
     }
 
     

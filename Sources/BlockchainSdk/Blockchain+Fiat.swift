@@ -9,13 +9,18 @@ import Foundation
 
 extension Blockchain {
     
-    public struct Fiat {
+    public struct Fiat: Codable {
         public let name: String
         public let symbol: String
         public let sign: String
         public let externalId: String?
         
-        public init(name: String, symbol: String, sign: String, externalId: String?) {
+        public init(
+            name: String,
+            symbol: String,
+            sign: String,
+            externalId: String?
+        ) {
             self.name = name
             self.symbol = symbol
             self.sign = sign
