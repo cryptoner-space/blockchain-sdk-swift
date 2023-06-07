@@ -1,6 +1,6 @@
 import XCTest
-@testable import BlockchainSdk
+@testable import BlockchainData
 
-final class BlockchainSdkTests: XCTestCase {
+final class BlockchainDataTests: XCTestCase {
     
 }
