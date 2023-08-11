@@ -152,21 +152,6 @@ extension Blockchain {
     
 }
 
-extension Blockchain.Amount {
-    
-    static public func amount(
-        fiat: Blockchain.Fiat,
-        crypto: Blockchain.Crypto,
-        value: Decimal,
-        rate: Decimal
-    ) throws -> Blockchain.Amount {
-        let cryptoValue = try crypto.amount(value: value)
-        let fiatRateValue = cryptoValue.value * crypto.blockchain.decimalRate(per: rate)
-        return try fiat.amount(value: max(fiatRateValue, 0.01).rounded(scale: 2, roundingMode: .plain))
-    }
-    
-}
-
 extension Blockchain.Amount.AmountType: Equatable, Hashable {
     public func hash(into hasher: inout Hasher) {
         switch self {
