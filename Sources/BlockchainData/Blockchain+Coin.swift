@@ -19,8 +19,17 @@ extension Blockchain {
         /// Ethereum
         case ETH
         
-        /// Toncoin
-        case TON
+        /// Binance
+        case BNB
+        
+        /// Ripple
+        case XRP
+        
+        /// Dogecoin
+        case DOGE
+        
+        /// Cardano
+        case ADA
         
         /// Solana
         case SOL
@@ -28,34 +37,26 @@ extension Blockchain {
         /// Tron
         case TRX
         
-        /// Ripple
-        case XRP
+        /// DOT
+        case DOT
         
-        /// Binance
-        case BNB
+        /// LTC
+        case LTC
         
-        // MARK: - Init
+        /// Toncoin
+        case TON
         
-        public init(_ blockchain: Blockchain) throws {
-            switch blockchain {
-            case .bitcoin:
-                self = .BTC
-            case .ethereum:
-                self = .ETH
-            case .toncoin:
-                self = .TON
-            case .solana:
-                self = .SOL
-            case .tron:
-                self = .TRX
-            case .ripple:
-                self = .XRP
-            case .binance:
-                self = .BNB
-            case .undefined:
-                throw CoinError.undefined
-            }
-        }
+        /// Bitcoin Cash
+        case BCH
+        
+        /// Stellar
+        case XLM
+        
+        /// Cosmos
+        case ATOM
+        
+        /// Ethereum Classic
+        case ETC
         
         // MARK: - Helper
         
@@ -63,25 +64,53 @@ extension Blockchain {
             switch self {
             case .BTC:
                 return .bitcoin
+            case .BNB:
+                return .binance
             case .ETH:
                 return .ethereum
-            case .TON:
-                return .toncoin
+            case .XRP:
+                return .ripple
+            case .DOGE:
+                return .bitcoin
+            case .ADA:
+                return .cardano
             case .SOL:
                 return .solana
             case .TRX:
                 return .tron
-            case .XRP:
-                return .ripple
-            case .BNB:
-                return .binance
+            case .DOT:
+                return .polkadot
+            case .LTC:
+                return .bitcoin
+            case .TON:
+                return .toncoin
+            case .BCH:
+                return .bitcoin
+            case .XLM:
+                return .stellar
+            case .ATOM:
+                return .cosmos
+            case .ETC:
+                return .ethereum
             }
         }
         
-        public var symbol: String {
-            return self.rawValue.uppercased()
+        public var displayName: String {
+            switch self {
+            default:
+                var name = "\(self)".capitalizingFirstLetter()
+            
+                if let index = name.firstIndex(of: "(") {
+                    name = String(name.prefix(upTo: index))
+                }
+            
+                return name
+            }
         }
         
+        public var currencySymbol: String {
+            self.rawValue.uppercased()
+        }
     }
 
     

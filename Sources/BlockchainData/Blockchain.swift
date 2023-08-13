@@ -14,8 +14,11 @@ public enum Blockchain: String, Codable, CaseIterable {
     /// Ethereum
     case ethereum
     
-    /// Toncoin
-    case toncoin
+    /// Binance
+    case binance
+    
+    /// Cardano
+    case cardano
     
     /// Solana
     case solana
@@ -23,11 +26,20 @@ public enum Blockchain: String, Codable, CaseIterable {
     /// Tron
     case tron
     
+    /// Toncoin
+    case toncoin
+    
     /// Ripple
     case ripple
     
-    /// Binance
-    case binance
+    /// Stellar
+    case stellar
+    
+    /// Cosmos
+    case cosmos
+    
+    /// Polkadot
+    case polkadot
     
     /// Exception type
     case undefined
@@ -37,23 +49,6 @@ public enum Blockchain: String, Codable, CaseIterable {
 // MARK: - Info Properties
 
 extension Blockchain {
-    
-    public var displayName: String {
-        switch self {
-        default:
-            var name = "\(self)".capitalizingFirstLetter()
-        
-            if let index = name.firstIndex(of: "(") {
-                name = String(name.prefix(upTo: index))
-            }
-        
-            return name
-        }
-    }
-    
-    public var currencySymbol: String {
-        (try? Blockchain.Coin(self).rawValue) ?? ""
-    }
     
     public var decimalCount: Int {
         switch self {
@@ -67,6 +62,8 @@ extension Blockchain {
             return 7
         case .solana, .toncoin:
             return 9
+        default:
+            return 0
         }
     }
     

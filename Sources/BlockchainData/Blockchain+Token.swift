@@ -16,17 +16,12 @@ extension Blockchain {
         /// Stablecoin Thether
         case USDT
         
-        /// Stablecoin USD Coin
-        case USDC
-        
         // MARK: - Implementation
         
         public var blockchains: [Blockchain] {
             switch self {
             case .USDT:
-                return [.ethereum, .tron]
-            default:
-                return []
+                return [.ethereum]
             }
         }
         
