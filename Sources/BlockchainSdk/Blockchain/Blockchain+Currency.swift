@@ -14,6 +14,12 @@ extension Blockchain {
         public let blockchain: Blockchain
         public let type: CurrencyType
         public let rawValue: String
+        
+        public init(blockchain: Blockchain, type: CurrencyType, rawValue: String) {
+            self.blockchain = blockchain
+            self.type = type
+            self.rawValue = rawValue
+        }
     }
 }
 
