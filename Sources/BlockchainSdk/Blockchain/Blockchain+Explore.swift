@@ -9,11 +9,6 @@ import Foundation
 
 extension Blockchain {
     
-    public enum ExploreUseCase: String, CaseIterable, Codable {
-        case address
-        case transaction
-    }
-    
     @available(iOS 13.0, *)
     public struct Explore: Codable {
         
@@ -24,7 +19,7 @@ extension Blockchain {
         public let isTestnet: Bool
         
         /// Endpoints by UseCase
-        public let endpoints: Dictionary<ExploreUseCase, String>
+        public let endpoints: Dictionary<UseCase, String>
         
         // MARK: - Implementation
         
@@ -32,12 +27,18 @@ extension Blockchain {
         
         // MARK: - Init
         
-        public init(url: String, isTestnet: Bool, endpoints: Dictionary<ExploreUseCase, String>) {
+        public init(url: String, isTestnet: Bool, endpoints: Dictionary<UseCase, String>) {
             self.url = url
             self.isTestnet = isTestnet
             self.endpoints = endpoints
         }
-        
     }
     
+}
+
+extension Blockchain.Explore {
+    public enum UseCase: Hashable, Codable {
+        case address(String)
+        case transaction(String)
+    }
 }
