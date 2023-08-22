@@ -7,12 +7,18 @@
 
 import Foundation
 
+// MARK: - Currency
+
 extension Blockchain {
-    
-    // MARK: - Currency
-    
+    public struct Currency: Codable {
+        public let blockchain: Blockchain
+        public let type: CurrencyType
+        public let rawValue: String
+    }
+}
+
+extension Blockchain {
     public enum CurrencyType: String, Codable, CaseIterable {
         case coin, token, custom
     }
-    
 }
