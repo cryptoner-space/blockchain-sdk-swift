@@ -43,13 +43,12 @@ public enum Blockchain: String, Codable, CaseIterable {
     
     /// Exception type
     case undefined
-    
+
 }
 
 // MARK: - Info Properties
 
 extension Blockchain {
-    
     public var decimalCount: Int {
         switch self {
         case .undefined:
@@ -74,5 +73,4 @@ extension Blockchain {
     public func decimalRate(per value: Decimal) -> Decimal {
         value * Decimal(pow(10.0, -Double(decimalCount)))
     }
-    
 }

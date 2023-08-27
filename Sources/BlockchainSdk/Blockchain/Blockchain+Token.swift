@@ -7,10 +7,9 @@
 
 import Foundation
 
+@available(iOS 13.0, *)
 extension Blockchain {
-    
     /// Main structure blockchain Sdk
-    @available(iOS 13.0, *)
     public enum Token: String, Codable, CaseIterable {
         
         /// Stablecoin Thether
@@ -36,14 +35,10 @@ extension Blockchain {
             
             return typeName
         }
-        
     }
-
-    
 }
 
 extension Blockchain.Token {
-    
     public enum TypeName: String, Codable {
         case ERC20, BEP20, TRC20, TON, BEP2
         
@@ -60,5 +55,4 @@ extension Blockchain.Token {
             }
         }
     }
-    
 }

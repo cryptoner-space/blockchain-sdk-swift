@@ -28,7 +28,7 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
     ///
     public let decimals: Int
     
-    // MARK: - Helpers
+    // MARK: - Public Helpers
     
     public var isZero: Bool {
         return value == 0
@@ -92,6 +92,16 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         self.value = value
     }
     
+    public init?(currency: Currency, value: Decimal) {
+        guard let amountType = AmountType(currency) else {
+            return nil
+        }
+        
+        self.init(type: amountType, value: value)
+    }
+    
+    // MARK: - Description & Printing
+    
     public func string(
         with decimals: Int? = nil,
         roundingMode: NSDecimalNumber.RoundingMode = .down
@@ -147,6 +157,25 @@ public enum AmountType {
     case token(_ type: Blockchain.Token, _ blockchain: Blockchain)
     case fiat(_ decimals: Int, _ symbol: String, _ sign: String?)
     case custom(_ decimals: Int, _ symbol: String, _ sign: String?)
+    
+    public init?(_ currency: Currency) {
+        switch currency.currencyType {
+        case .coin:
+            guard let coin = currency.coin else {
+                return nil
+            }
+            
+            self = .coin(coin)
+        case .token:
+            guard let token = currency.token else {
+                return nil
+            }
+            
+            self = .token(token, currency.blockchain)
+        case .custom:
+            return nil
+        }
+    }
 }
 
 extension AmountType: Equatable, Hashable {
@@ -175,26 +204,22 @@ extension AmountType: Equatable, Hashable {
     }
 }
 
-extension Amount {
-    
+public extension Amount {
     static func dummyCoin(coin: Blockchain.Coin) -> Amount {
         .init(type: .coin(coin), value: 0)
     }
     
-    public static func zeroCoin(coin: Blockchain.Coin) -> Amount {
+    static func zeroCoin(coin: Blockchain.Coin) -> Amount {
         .init(type: .coin(coin), value: 0)
     }
     
-    public static func maxCoin(coin: Blockchain.Coin) -> Amount {
+    static func maxCoin(coin: Blockchain.Coin) -> Amount {
         .init(type: .coin(coin), value: Decimal.greatestFiniteMagnitude)
     }
-    
 }
 
-extension Optional where Wrapped == Amount {
-    
+public extension Optional where Wrapped == Amount {
     var zeroOrNil: Bool {
         self?.isZero ?? true
     }
-    
 }
