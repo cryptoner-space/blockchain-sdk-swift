@@ -53,3 +53,35 @@ public struct Currency: Codable {
 public enum CurrencyType: String, Codable, CaseIterable {
     case coin, token, custom
 }
+
+// MARK: - Factory
+
+public extension Currency {
+    static func make() -> [Currency] {
+        let coins: [Currency] = Blockchain.Factory.coins().map {
+            return .init(
+                blockchain: $0.blockchain,
+                currencyType: .coin,
+                rawValue: $0.rawValue.uppercased()
+            )
+        }
+        
+        let tokens: [[Currency]] = Blockchain.Factory.tokens().map { token in
+            let tokens = token.blockchains.compactMap { blockchain -> Currency? in
+                guard token.blockchains.contains(blockchain) else {
+                    return nil
+                }
+                
+                return Currency(
+                    blockchain: blockchain,
+                    currencyType: .token,
+                    rawValue: token.rawValue.uppercased()
+                )
+            }
+            
+            return tokens
+        }
+        
+        return coins + Array(tokens.joined())
+    }
+}
