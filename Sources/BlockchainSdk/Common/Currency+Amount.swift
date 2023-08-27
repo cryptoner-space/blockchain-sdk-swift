@@ -28,7 +28,7 @@ public struct CurrencyAmount: Codable {
     /// Execute amount value for currency model
     /// - Parameter devide: Devider flag conversion for compensate value decimal count
     /// - Returns: Amount value
-    func value(devide: Bool = false) throws -> Amount {
+    public func value(devide: Bool = false) throws -> Amount {
         guard let parseValue = Decimal(string: amount) else {
             throw ValueError.parseValue
         }
