@@ -7,8 +7,7 @@
 
 import Foundation
 
-extension String {
-    
+public extension String {
     func contains(_ string: String, ignoreCase: Bool = true) -> Bool {
         return self.range(of: string, options: ignoreCase ? .caseInsensitive : []) != nil
     }
@@ -46,17 +45,10 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
-    
-    public static var unknown: String {
-        "Unknown"
-    }
-    
 }
 
 extension String: Error, LocalizedError {
-    
     public var errorDescription: String? {
         return self
     }
-    
 }
