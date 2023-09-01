@@ -61,6 +61,18 @@ public extension Data {
     init(_ byte: Byte) {
         self = Data([byte])
     }
+    
+    func aligned(to length: Int = 32) -> Data {
+        let bytesCount = self.count
+        
+        guard bytesCount < length else {
+            return self
+        }
+        
+        let prefix = Data(repeating: 0, count: 32 - bytesCount)
+        
+        return prefix + self
+    }
 
     @available(iOS 13.0, *)
     func getSha256() -> Data {
