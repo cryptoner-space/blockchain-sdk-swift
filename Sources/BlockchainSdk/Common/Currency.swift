@@ -18,6 +18,12 @@ public struct Currency: CurrencyDescription {
         self.currencyType = currencyType
     }
     
+    public init(_ model: any CurrencyDescription) {
+        self.id = model.id
+        self.blockchain = model.blockchain
+        self.currencyType = model.currencyType
+    }
+    
     public func resolveAmountType() throws -> AmountType {
         switch currencyType {
         case .coin:
