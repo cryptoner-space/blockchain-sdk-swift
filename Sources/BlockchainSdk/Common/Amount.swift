@@ -66,11 +66,11 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         
         switch type {
         case .coin(let value):
-            self.currencySymbol = value.rawValue
+            self.currencySymbol = value.currencySymbol
             self.currencySign = nil
             self.decimals = value.blockchain.decimalCount
         case .token(let value, let blockchain):
-            self.currencySymbol = value.rawValue
+            self.currencySymbol = value.currencySymbol
             self.currencySign = nil
             self.decimals = blockchain.decimalCount
         case .fiat(let decimals, let symbol, let sign):
@@ -92,12 +92,12 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         self.value = value
     }
     
-    public init?(currency: Currency, value: Decimal) {
-        guard let amountType = AmountType(currency) else {
-            return nil
-        }
-        
-        self.init(type: amountType, value: value)
+    public init?(coin: any CoinCurrencyDescription, value: Decimal) {
+        self.init(type: coin.amountType, value: value)
+    }
+    
+    public init?(token: any TokenCurrencyDescription, value: Decimal) {
+        self.init(type: token.amountType, value: value)
     }
     
     // MARK: - Description & Printing
@@ -153,38 +153,19 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
 }
 
 public enum AmountType {
-    case coin(_ type: Blockchain.Coin)
-    case token(_ type: Blockchain.Token, _ blockchain: Blockchain)
+    case coin(_ description: any CoinCurrencyDescription)
+    case token(_ description: any TokenCurrencyDescription, _ blockchain: Blockchain)
     case fiat(_ decimals: Int, _ symbol: String, _ sign: String?)
     case custom(_ decimals: Int, _ symbol: String, _ sign: String?)
-    
-    public init?(_ currency: Currency) {
-        switch currency.currencyType {
-        case .coin:
-            guard let coin = currency.coin else {
-                return nil
-            }
-            
-            self = .coin(coin)
-        case .token:
-            guard let token = currency.token else {
-                return nil
-            }
-            
-            self = .token(token, currency.blockchain)
-        case .custom:
-            return nil
-        }
-    }
 }
 
 extension AmountType: Equatable, Hashable {
     public func hash(into hasher: inout Hasher) {
         switch self {
-        case .coin(let blockchain):
-            hasher.combine(blockchain.hashValue)
+        case .coin(let value):
+            hasher.combine(value.id.hashValue)
         case .token(let value, _):
-            hasher.combine(value.hashValue)
+            hasher.combine(value.id.hashValue)
         case .fiat(_, let symbol, _):
             hasher.combine(symbol.hashValue)
         case .custom(_, let symbol, _):
@@ -195,9 +176,9 @@ extension AmountType: Equatable, Hashable {
     public static func == (lhs: AmountType, rhs: AmountType) -> Bool {
         switch (lhs, rhs) {
         case (.coin(let lv), .coin(let rv)):
-            return lv.rawValue == rv.rawValue
+            return lv.id == rv.id
         case (.token(let lv, _), .token(let rv, _)):
-            return lv.rawValue == rv.rawValue
+            return lv.id == rv.id
         default:
             return false
         }
@@ -205,15 +186,15 @@ extension AmountType: Equatable, Hashable {
 }
 
 public extension Amount {
-    static func dummyCoin(coin: Blockchain.Coin) -> Amount {
+    static func dummyCoin(coin: any CoinCurrencyDescription) -> Amount {
         .init(type: .coin(coin), value: 0)
     }
     
-    static func zeroCoin(coin: Blockchain.Coin) -> Amount {
+    static func zeroCoin(coin: any CoinCurrencyDescription) -> Amount {
         .init(type: .coin(coin), value: 0)
     }
     
-    static func maxCoin(coin: Blockchain.Coin) -> Amount {
+    static func maxCoin(coin: any CoinCurrencyDescription) -> Amount {
         .init(type: .coin(coin), value: Decimal.greatestFiniteMagnitude)
     }
 }

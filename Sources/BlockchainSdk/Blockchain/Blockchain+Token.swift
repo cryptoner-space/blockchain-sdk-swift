@@ -10,8 +10,23 @@ import Foundation
 @available(iOS 13.0, *)
 extension Blockchain {
     /// Main structure blockchain Sdk
-    public enum Token: String, Codable, CaseIterable {
+    public struct Token: TokenCurrencyDescription {
+        public var id: String { item.rawValue }
+        public var currencyType: CurrencyType { .token }
+        public var contractAddress: String { item.contractAddress(for: blockchain) ?? "" }
+        public var currencySymbol: String { item.currencySymbol }
+        public var displayName: String { item.displayName }
+        public var decimalCount: Int { blockchain.decimalCount }
         
+        public let item: Token.Item
+        public let blockchain: Blockchain
+        
+        public var currencySign: String?
+    }
+}
+
+public extension Blockchain.Token {
+    enum Item: String, Codable, CaseIterable {
         /// Stablecoin Thether
         case USDT
         
@@ -24,32 +39,28 @@ extension Blockchain {
             }
         }
         
-        public var symbol: String {
+        public var currencySymbol: String {
             return self.rawValue.uppercased()
         }
         
-        public func typeName(blockchain: Blockchain) throws -> TypeName {
-            guard let typeName = TypeName(blockchain) else {
-                throw Blockchain.EntityError.errorExecution
+        public var displayName: String {
+            switch self {
+            case .USDT:
+                return "Tether USD"
             }
-            
-            return typeName
         }
-    }
-}
-
-extension Blockchain.Token {
-    public enum TypeName: String, Codable {
-        case ERC20, BEP20, TRC20, TON, BEP2
         
-        public init?(_ blockchain: Blockchain) {
-            switch blockchain {
-            case .ethereum:
-                self = .ERC20
-            case .binance:
-                self = .BEP2
-            case .tron:
-                self = .TRC20
+        public var isStablecoin: Bool {
+            switch self {
+            case .USDT:
+                return true
+            }
+        }
+        
+        public func contractAddress(for blockchain: Blockchain) -> String? {
+            switch self {
+            case .USDT where blockchain == .ethereum:
+                return "0xdAC17F958D2ee523a2206206994597C13D831ec7"
             default:
                 return nil
             }

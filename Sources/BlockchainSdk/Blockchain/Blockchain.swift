@@ -46,6 +46,44 @@ public enum Blockchain: String, Codable, CaseIterable {
 
 }
 
+// MARK: - Implementation
+
+public extension Blockchain {
+    var tokenTypeName: String? {
+        switch self {
+        case .ethereum: return Blockchain.TokenType.ERC20.name
+        case .binance: return Blockchain.TokenType.BEP2.name
+        case .tron: return Blockchain.TokenType.TRC20.name
+        default:
+            return nil
+        }
+    }
+    
+    var canHandleTokens: Bool {
+        switch self {
+        case .ethereum, .binance, .solana, .tron:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    func isFeeApproximate(for amountType: AmountType) -> Bool {
+        switch self {
+        case .stellar, .toncoin:
+            return true
+        case .tron:
+            if case .token = amountType {
+                return true
+            }
+        default:
+            break
+        }
+        
+        return false
+    }
+}
+
 // MARK: - Info Properties
 
 extension Blockchain {
@@ -72,5 +110,15 @@ extension Blockchain {
     
     public func decimalRate(per value: Decimal) -> Decimal {
         value * Decimal(pow(10.0, -Double(decimalCount)))
+    }
+}
+
+public extension Blockchain {
+    enum TokenType: String, Codable {
+        case ERC20, BEP20, TRC20, TON, BEP2
+        
+        var name: String {
+            self.rawValue.uppercased()
+        }
     }
 }
