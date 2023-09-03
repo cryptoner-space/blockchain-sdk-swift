@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CryptoKit
 
 public typealias Byte = UInt8
 
@@ -44,22 +43,5 @@ extension UInt16 {
     
     public var hexString: String {
         return String(format: "%02X", self)
-    }
-}
-
-@available(iOS 13.0, *)
-extension Array where Element == UInt8 {
-    public func getSha256() -> Data {
-        let digest = SHA256.hash(data: self)
-        return Data(digest)
-    }
-
-    public func getSha512() -> Data {
-        let digest = SHA512.hash(data: self)
-        return Data(digest)
-    }
-
-    public func getDoubleSha256() -> Data {
-        return getSha256().getSha256()
     }
 }
