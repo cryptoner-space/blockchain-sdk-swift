@@ -32,7 +32,7 @@ public struct Currency: CurrencyDescription {
     }
 }
 
-public struct CurrencyAmount {
+public struct CurrencyAmount: Codable {
     let currency: Currency
     let amount: String
     
