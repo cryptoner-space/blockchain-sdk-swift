@@ -8,10 +8,10 @@
 import Foundation
 
 public protocol CurrencyInfoDescription: Identifiable, Codable {
-    var currencySymbol: String      { get }
-    var currencySign: String?       { get }
-    var displayName: String         { get }
-    var decimalCount: Int           { get }
+    var currencySymbol:     String      { get }
+    var currencySign:       String?     { get }
+    var displayName:        String      { get }
+    var decimalCount:       Int         { get }
 }
 
 public extension CurrencyInfoDescription {

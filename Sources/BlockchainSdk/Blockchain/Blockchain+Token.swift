@@ -22,6 +22,10 @@ extension Blockchain {
         public let blockchain: Blockchain
         
         public var currencySign: String?
+        
+        public func resolveAmountType() throws -> AmountType {
+            amountType
+        }
     }
 }
 

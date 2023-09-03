@@ -144,6 +144,10 @@ extension Blockchain.Coin: CoinCurrencyDescription {
             return 0
         }
     }
+    
+    public func resolveAmountType() throws -> AmountType {
+        amountType
+    }
 }
 
 // MARK: - Error
