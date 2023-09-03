@@ -12,6 +12,12 @@ public struct Currency: CurrencyDescription {
     public let blockchain: Blockchain
     public let currencyType: CurrencyType
     
+    public init(id: String, blockchain: Blockchain, currencyType: CurrencyType) {
+        self.id = id
+        self.blockchain = blockchain
+        self.currencyType = currencyType
+    }
+    
     public func resolveAmountType() throws -> AmountType {
         switch currencyType {
         case .coin:
@@ -35,6 +41,11 @@ public struct Currency: CurrencyDescription {
 public struct CurrencyAmount: Codable {
     let currency: Currency
     let amount: String
+    
+    public init(currency: Currency, amount: String) {
+        self.currency = currency
+        self.amount = amount
+    }
     
     /// Execute amount value for currency model
     /// - Parameter devide: Devider flag conversion for compensate value decimal count
