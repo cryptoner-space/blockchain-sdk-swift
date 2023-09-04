@@ -11,17 +11,25 @@ public struct Currency: CurrencyDescription {
     public let id: String
     public let blockchain: Blockchain
     public let currencyType: CurrencyType
+    public let decimalCount: Int
     
-    public init(id: String, blockchain: Blockchain, currencyType: CurrencyType) {
+    public init(
+        id: String,
+        blockchain: Blockchain,
+        currencyType: CurrencyType,
+        decimalCount: Int
+    ) {
         self.id = id
         self.blockchain = blockchain
         self.currencyType = currencyType
+        self.decimalCount = decimalCount
     }
     
     public init(_ model: any CurrencyDescription) {
         self.id = model.id
         self.blockchain = model.blockchain
         self.currencyType = model.currencyType
+        self.decimalCount = model.decimalCount
     }
     
     public func resolveAmountType() throws -> AmountType {
@@ -41,33 +49,6 @@ public struct Currency: CurrencyDescription {
         default:
             throw CurrencyParseError.parseAmountType
         }
-    }
-}
-
-public struct CurrencyAmount: Codable {
-    let currency: Currency
-    let amount: String
-    
-    public init(currency: Currency, amount: String) {
-        self.currency = currency
-        self.amount = amount
-    }
-    
-    /// Execute amount value for currency model
-    /// - Parameter devide: Devider flag conversion for compensate value decimal count
-    /// - Returns: Amount value
-    public func value(devide: Bool = false) throws -> Amount {
-        guard let parseValue = Decimal(string: amount) else {
-            throw CurrencyParseError.parseValue
-        }
-        
-        guard let amountType = try? currency.resolveAmountType() else {
-            throw CurrencyParseError.parseValue
-        }
-        
-        let value = devide ? parseValue / currency.blockchain.decimalValue : parseValue
-        
-        return Amount(type: amountType, value: value)
     }
 }
 
