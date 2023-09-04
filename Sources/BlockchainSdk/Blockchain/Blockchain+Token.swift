@@ -11,6 +11,8 @@ import Foundation
 extension Blockchain {
     /// Main structure blockchain Sdk
     public struct Token: TokenCurrencyDescription {
+        // MARK: - Computed Properties
+        
         public var id: String { item.rawValue }
         public var currencyType: CurrencyType { .token }
         public var contractAddress: String { item.contractAddress(for: blockchain) ?? "" }
@@ -18,14 +20,24 @@ extension Blockchain {
         public var displayName: String { item.displayName }
         public var decimalCount: Int { blockchain.decimalCount }
         
+        // MARK: - Input Properties
+        
         public let item: Token.Item
         public let blockchain: Blockchain
         
         public var currencySign: String?
         
-        public func resolveAmountType() throws -> AmountType {
-            amountType
+        // MARK: - Init
+        
+        public init(item: Token.Item, blockchain: Blockchain, currencySign: String? = nil) {
+            self.item = item
+            self.blockchain = blockchain
+            self.currencySign = currencySign
         }
+        
+        // MARK: - Implementation
+        
+        public func resolveAmountType() throws -> AmountType { amountType}
     }
 }
 
