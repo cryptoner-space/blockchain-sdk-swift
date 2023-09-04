@@ -18,7 +18,15 @@ extension Blockchain {
         public var contractAddress: String { item.contractAddress(for: blockchain) ?? "" }
         public var currencySymbol: String { item.currencySymbol }
         public var displayName: String { item.displayName }
-        public var decimalCount: Int { blockchain.decimalCount }
+        
+        public var decimalCount: Int {
+            switch item {
+            case .USDT where blockchain == .ethereum:
+                return 6
+            default:
+                return blockchain.decimalCount
+            }
+        }
         
         // MARK: - Input Properties
         
