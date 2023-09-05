@@ -145,6 +145,10 @@ extension Blockchain.Coin: CoinCurrencyDescription {
         }
     }
     
+    public var contractAddress: String? {
+        nil
+    }
+    
     public func resolveAmountType() throws -> AmountType {
         amountType
     }

@@ -8,9 +8,9 @@
 import Foundation
 
 public protocol CurrencyDescription: Identifiable, Codable where ID == String {
-    var blockchain:     Blockchain      { get }
-    var currencyType:   CurrencyType    { get }
-    var decimalCount:   Int             { get }
+    var blockchain:         Blockchain      { get }
+    var currencyType:       CurrencyType    { get }
+    var decimalCount:       Int             { get }
     
     func resolveAmountType() throws -> AmountType
 }
