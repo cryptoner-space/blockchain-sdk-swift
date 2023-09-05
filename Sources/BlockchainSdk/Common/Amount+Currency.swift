@@ -8,8 +8,8 @@
 import Foundation
 
 public struct AmountCurrency: Codable {
-    let currency: Currency
-    let amount: String
+    public let currency: Currency
+    public let amount: String
     
     public init(currency: Currency, amount: String) {
         self.currency = currency
