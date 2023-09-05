@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Currency: CurrencyDescription {
+public struct Currency: Codable, DecimalValueDescription {
     public let id: String
     public let blockchain: Blockchain
     public let currencyType: CurrencyType
@@ -34,25 +34,6 @@ public struct Currency: CurrencyDescription {
         self.currencyType = model.currencyType
         self.decimalCount = model.decimalCount
         self.contractAddress = (model as? (any TokenCurrencyDescription))?.contractAddress
-    }
-    
-    public func resolveAmountType() throws -> AmountType {
-        switch currencyType {
-        case .coin:
-            guard let description = self as? (any CoinCurrencyDescription) else {
-                throw CurrencyParseError.parseAmountType
-            }
-            
-            return description.amountType
-        case .token:
-            guard let description = self as? (any TokenCurrencyDescription) else {
-                throw CurrencyParseError.parseAmountType
-            }
-            
-            return description.amountType
-        default:
-            throw CurrencyParseError.parseAmountType
-        }
     }
 }
 

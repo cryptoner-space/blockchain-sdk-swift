@@ -43,9 +43,9 @@ extension Blockchain {
             self.currencySign = currencySign
         }
         
-        // MARK: - Implementation
-        
-        public func resolveAmountType() throws -> AmountType { amountType}
+        public func resolveAmountType() throws -> AmountType {
+            amountType
+        }
     }
 }
 
@@ -89,5 +89,14 @@ public extension Blockchain.Token {
                 return nil
             }
         }
+    }
+}
+
+// MARK: - Error
+
+public extension Blockchain.Token {
+    enum TokenError: Error {
+        case parseAmountType
+        case undefined
     }
 }

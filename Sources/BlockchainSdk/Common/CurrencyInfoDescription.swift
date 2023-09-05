@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol CurrencyInfoDescription: Identifiable, Codable {
+public protocol CurrencyInfoDescription: Codable {
     var currencySymbol:     String      { get }
     var currencySign:       String?     { get }
     var displayName:        String      { get }

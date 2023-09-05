@@ -158,6 +158,7 @@ extension Blockchain.Coin: CoinCurrencyDescription {
 
 public extension Blockchain.Coin {
     enum CoinError: Error {
+        case parseAmountType
         case undefined
     }
 }
