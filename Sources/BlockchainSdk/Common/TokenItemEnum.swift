@@ -23,7 +23,7 @@ public enum TokenItem: String, Codable, CaseIterable {
     
     public func typeName(blockchain: Blockchain) throws -> TypeName {
         guard let typeName = TypeName(blockchain) else {
-            throw Blockchain.EntityError.errorExecution
+            throw Blockchain.TokenItemError.errorTokenTypeName
         }
         
         return typeName

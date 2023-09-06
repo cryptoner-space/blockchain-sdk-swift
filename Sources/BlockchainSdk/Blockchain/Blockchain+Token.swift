@@ -91,12 +91,3 @@ public extension Blockchain.Token {
         }
     }
 }
-
-// MARK: - Error
-
-public extension Blockchain.Token {
-    enum TokenError: Error {
-        case parseAmountType
-        case undefined
-    }
-}

@@ -7,16 +7,8 @@
 
 import Foundation
 
-extension Blockchain {
-    
-    public enum ExploreError: Error {
-        case errorMakeUrl
+public extension Blockchain {
+    enum TokenItemError: Error, LocalizedError {
+        case errorTokenTypeName
     }
-    
-    public enum EntityError: Error {
-        case errorExecution
-        case errorMakingBlockchainCrypto
-        case errorAmount
-    }
-    
 }

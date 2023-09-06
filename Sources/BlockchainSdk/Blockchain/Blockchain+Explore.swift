@@ -19,15 +19,11 @@ extension Blockchain {
         public let isTestnet: Bool
         
         /// Endpoints by UseCase
-        public let endpoints: Dictionary<UseCase, String>
-        
-        // MARK: - Implementation
-        
-        public func makeUrl() throws -> URL { throw Blockchain.ExploreError.errorMakeUrl }
+        public let endpoints: Dictionary<Params, String>
         
         // MARK: - Init
         
-        public init(url: String, isTestnet: Bool, endpoints: Dictionary<UseCase, String>) {
+        public init(url: String, isTestnet: Bool, endpoints: Dictionary<Params, String>) {
             self.url = url
             self.isTestnet = isTestnet
             self.endpoints = endpoints
@@ -37,7 +33,7 @@ extension Blockchain {
 }
 
 extension Blockchain.Explore {
-    public enum UseCase: Hashable, Codable {
+    public enum Params: Hashable, Codable {
         case address(String)
         case transaction(String)
     }

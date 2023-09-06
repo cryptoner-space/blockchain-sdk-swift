@@ -55,6 +55,16 @@ extension Blockchain {
         
         /// Ethereum Classic
         case ETC
+        
+        // MARK: - Init
+        
+        public init?(blockchain: Blockchain) {
+            guard let value = Self.allCases.first(where: { $0.blockchain == blockchain }) else {
+                return nil
+            }
+            
+            self = value
+        }
     }
 }
 
@@ -91,7 +101,7 @@ extension Blockchain.Coin: CoinCurrencyDescription {
         case .XRP:
             return .ripple
         case .DOGE:
-            return .bitcoin
+            return .dogecoin
         case .ADA:
             return .cardano
         case .SOL:
@@ -105,13 +115,13 @@ extension Blockchain.Coin: CoinCurrencyDescription {
         case .TON:
             return .toncoin
         case .BCH:
-            return .bitcoin
+            return .bitcoinCash
         case .XLM:
             return .stellar
         case .ATOM:
             return .cosmos
         case .ETC:
-            return .ethereum
+            return .bitcoinCash
         }
     }
     
@@ -130,8 +140,6 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     
     public var decimalCount: Int {
         switch self.blockchain {
-        case .undefined:
-            return 0
         case .bitcoin, .binance:
             return 8
         case .ethereum:
@@ -152,13 +160,5 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     public func resolveAmountType() throws -> AmountType {
         amountType
     }
-}
-
-// MARK: - Error
-
-public extension Blockchain.Coin {
-    enum CoinError: Error {
-        case parseAmountType
-        case undefined
-    }
+    
 }

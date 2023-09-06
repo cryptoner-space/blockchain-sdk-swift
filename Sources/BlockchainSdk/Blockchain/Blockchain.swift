@@ -11,6 +11,9 @@ public enum Blockchain: String, Codable, CaseIterable {
     /// Bitcoin
     case bitcoin
     
+    /// Litecoin
+    case litecoin
+    
     /// Ethereum
     case ethereum
     
@@ -41,8 +44,14 @@ public enum Blockchain: String, Codable, CaseIterable {
     /// Polkadot
     case polkadot
     
-    /// Exception type
-    case undefined
+    /// Ethereum Classic
+    case ethereumClassic
+    
+    /// Bitcoin Cash
+    case bitcoinCash
+    
+    /// Dogecoin
+    case dogecoin
 
 }
 
@@ -86,14 +95,12 @@ public extension Blockchain {
 
 // MARK: - Info Properties
 
-extension Blockchain {
+extension Blockchain: DecimalValueDescription {
     public var decimalCount: Int {
         switch self {
-        case .undefined:
-            return 0
-        case .bitcoin, .binance:
+        case .bitcoin, .binance, .bitcoinCash, .litecoin, .dogecoin:
             return 8
-        case .ethereum:
+        case .ethereum, .ethereumClassic:
             return 18
         case  .tron, .ripple:
             return 7
