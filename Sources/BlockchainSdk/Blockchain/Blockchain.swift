@@ -93,7 +93,44 @@ public extension Blockchain {
     }
 }
 
-// MARK: - Info Properties
+// MARK: -
+
+public extension Blockchain {
+    var coin: Blockchain.Coin? {
+        switch self {
+        case .bitcoin:
+            return .BTC
+        case .litecoin:
+            return .LTC
+        case .ethereum:
+            return .ETH
+        case .binance:
+            return .BNB
+        case .cardano:
+            return .ADA
+        case .solana:
+            return .SOL
+        case .tron:
+            return .TRX
+        case .toncoin:
+            return .TON
+        case .ripple:
+            return .XRP
+        case .stellar:
+            return .XLM
+        case .cosmos:
+            return .ATOM
+        case .ethereumClassic:
+            return .ETC
+        case .bitcoinCash:
+            return .BTC
+        default:
+            return nil
+        }
+    }
+}
+
+// MARK: - DecimalValueDescription
 
 extension Blockchain: DecimalValueDescription {
     public var decimalCount: Int {
@@ -119,6 +156,8 @@ extension Blockchain: DecimalValueDescription {
         value * Decimal(pow(10.0, -Double(decimalCount)))
     }
 }
+
+// MARK: - TokenType
 
 public extension Blockchain {
     enum TokenType: String, Codable {
