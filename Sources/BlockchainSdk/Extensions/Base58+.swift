@@ -11,7 +11,7 @@ public enum Base58 {
     private static let base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
     // Encode
-    static func base58FromBytes(_ bytes: [UInt8]) -> String {
+    public static func base58FromBytes(_ bytes: [UInt8]) -> String {
         var bytes = bytes
         var zerosCount = 0
         var length = 0
@@ -64,7 +64,7 @@ public enum Base58 {
     }
 
     // Decode
-    static func bytesFromBase58(_ base58: String) -> [UInt8] {
+    public static func bytesFromBase58(_ base58: String) -> [UInt8] {
         // remove leading and trailing whitespaces
         let string = base58.trimmingCharacters(in: CharacterSet.whitespaces)
         guard !string.isEmpty else { return [] }
