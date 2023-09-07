@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate enum Base58 {
+public enum Base58 {
     private static let base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
     // Encode
