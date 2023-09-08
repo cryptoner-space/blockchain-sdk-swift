@@ -14,6 +14,8 @@ public struct TronUtils {
     
     var doubleSha256: (([UInt8]) -> Data)
     
+    /// Use multiplatform sha256 calculate data
+    /// - Parameter doubleSha256: Inout closure
     public init(doubleSha256: @escaping (([UInt8]) -> Data)) {
         self.doubleSha256 = doubleSha256
     }
@@ -32,7 +34,7 @@ public struct TronUtils {
         return bytesWithoutCheck
     }
     
-    func toByteForm(_ base58String: String) -> Data? {
+    public func toByteForm(_ base58String: String) -> Data? {
         guard let bytes = base58CheckDecodedBytes(base58String) else {
             return nil
         }
@@ -40,7 +42,7 @@ public struct TronUtils {
         return Data(bytes)
     }
     
-    func toHexForm(_ base58String: String, length: Int?) -> String? {
+    public func toHexForm(_ base58String: String, length: Int?) -> String? {
         guard let data = toByteForm(base58String) else {
             return nil
         }
@@ -54,7 +56,7 @@ public struct TronUtils {
     }
 }
 
-extension TronUtils {
+public extension TronUtils {
     /// Formats a BigUInt object to String. The supplied number is first divided into integer and decimal part based on "numberDecimals",
     /// then limits the decimal part to "formattingDecimals" symbols and uses a "decimalSeparator" as a separator.
     /// Fallbacks to scientific format if higher precision is required.
