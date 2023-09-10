@@ -12,11 +12,23 @@ public enum TokenItem: String, Codable, CaseIterable {
     /// Stablecoin Thether
     case USDT
     
+    /// BNB Token
+    case BNB
+    
+    /// USD Coin
+    case USDC
+    
+    /// TRON Token
+    case TRON
+    
+    /// Token Wrapped TON Coin
+    case TONCOIN
+    
     // MARK: - Implementation
     
     public var blockchains: [Blockchain] {
         switch self {
-        case .USDT:
+        case .USDT, .BNB, .USDC, .TRON, .TONCOIN:
             return [.ethereum]
         }
     }
@@ -40,8 +52,12 @@ extension TokenItem {
                 self = .ERC20
             case .binance:
                 self = .BEP2
+            case .binanceSmartChain:
+                self = .BEP20
             case .tron:
                 self = .TRC20
+            case .toncoin:
+                self = .TON
             default:
                 return nil
             }

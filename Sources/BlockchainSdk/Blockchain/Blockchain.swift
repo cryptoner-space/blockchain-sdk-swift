@@ -5,32 +5,16 @@ import Foundation
 // MARK: - Blockchain
 
 /// Main structure blockchain Sdk
-@available(iOS 13.0, *)
 public enum Blockchain: String, Codable, CaseIterable {
     
     /// Bitcoin ✅
     case bitcoin
-    
-    /// Litecoin ⭕️
-    case litecoin
     
     /// Ethereum ✅
     case ethereum
     
     /// Ethereum Classic ✅
     case ethereumClassic
-    
-    /// Binance ⭕️
-    case binance
-    
-    /// Binance Smart Chain ✅
-    case binanceSmartChain
-    
-    /// Cardano ⭕️
-    case cardano
-    
-    /// Solana ⭕️
-    case solana
     
     /// Tron ✅
     case tron
@@ -41,11 +25,26 @@ public enum Blockchain: String, Codable, CaseIterable {
     /// Ripple ✅
     case ripple
     
-    /// Stellar ⭕️
-    case stellar
+    /// Binance Smart Chain ✅
+    case binanceSmartChain
     
     /// Cosmos ✅
     case cosmos
+    
+    /// Litecoin ⭕️
+    case litecoin
+    
+    /// Binance ⭕️
+    case binance
+    
+    /// Cardano ⭕️
+    case cardano
+    
+    /// Solana ⭕️
+    case solana
+    
+    /// Stellar ⭕️
+    case stellar
     
     /// Polkadot ⭕️
     case polkadot
@@ -75,6 +74,15 @@ public extension Blockchain {
     var canHandleTokens: Bool {
         switch self {
         case .ethereum, .binance, .solana, .tron:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isEvm: Bool {
+        switch self {
+        case .ethereumClassic, .binanceSmartChain:
             return true
         default:
             return false
@@ -111,7 +119,7 @@ public extension Blockchain {
         case .binance:
             return .BNB
         case .binanceSmartChain:
-            return .BNB
+            return .BSC
         case .cardano:
             return .ADA
         case .solana:
@@ -129,7 +137,7 @@ public extension Blockchain {
         case .ethereumClassic:
             return .ETC
         case .bitcoinCash:
-            return .BTC
+            return .BCH
         default:
             return nil
         }

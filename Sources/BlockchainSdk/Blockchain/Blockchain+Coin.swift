@@ -9,7 +9,6 @@ import Foundation
 
 extension Blockchain {
     /// Main structure blockchain Sdk
-    @available(iOS 13.0, *)
     public enum Coin: String, Codable, CaseIterable {
         /// Bitcoin
         case BTC
@@ -103,6 +102,8 @@ extension Blockchain.Coin: CoinCurrencyDescription {
             return .binanceSmartChain
         case .ETH:
             return .ethereum
+        case .ETC:
+            return .ethereumClassic
         case .XRP:
             return .ripple
         case .DOGE:
@@ -125,8 +126,6 @@ extension Blockchain.Coin: CoinCurrencyDescription {
             return .stellar
         case .ATOM:
             return .cosmos
-        case .ETC:
-            return .bitcoinCash
         }
     }
     
