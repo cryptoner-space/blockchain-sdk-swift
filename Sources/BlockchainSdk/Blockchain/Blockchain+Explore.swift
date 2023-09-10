@@ -7,29 +7,21 @@
 
 import Foundation
 
-extension Blockchain {
-    
-    @available(iOS 13.0, *)
-    public struct Explore: Codable {
-        
+public extension Blockchain {
+    struct Explore: Codable {
         /// Base url for exploer
         public let url: String
         
-        /// Testnet flag
-        public let isTestnet: Bool
-        
-        /// Endpoints by UseCase
-        public let endpoints: Dictionary<Params, String>
+        /// Params of path transaction
+        public let params: [Params]
         
         // MARK: - Init
         
-        public init(url: String, isTestnet: Bool, endpoints: Dictionary<Params, String>) {
+        init(url: String, params: [Params]) {
             self.url = url
-            self.isTestnet = isTestnet
-            self.endpoints = endpoints
+            self.params = params
         }
     }
-    
 }
 
 extension Blockchain.Explore {

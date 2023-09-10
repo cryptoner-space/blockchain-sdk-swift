@@ -7,7 +7,6 @@
 
 import Foundation
 
-@available(iOS 13.0, *)
 extension Blockchain {
     /// Main structure blockchain Sdk
     public struct Token: TokenCurrencyDescription {
@@ -54,12 +53,26 @@ public extension Blockchain.Token {
         /// Stablecoin Thether
         case USDT
         
+        /// BNB Token
+        case BNB
+        
+        /// USD Coin
+        case USDC
+        
+        /// TRON Token
+        case TRON
+        
+        /// Token Wrapped TON Coin
+        case TONCOIN
+        
         // MARK: - Implementation
         
         public var blockchains: [Blockchain] {
             switch self {
-            case .USDT:
-                return [.ethereum]
+            case .USDT, .BNB, .USDC:
+                return [.ethereum, .tron]
+            case .TRON, .TONCOIN:
+                return [.ethereum, .tron]
             }
         }
         
@@ -71,13 +84,17 @@ public extension Blockchain.Token {
             switch self {
             case .USDT:
                 return "Tether USD"
+            default:
+                return ""
             }
         }
         
         public var isStablecoin: Bool {
             switch self {
-            case .USDT:
+            case .USDT, .USDC:
                 return true
+            default:
+                return false
             }
         }
         
