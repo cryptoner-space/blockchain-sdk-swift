@@ -17,8 +17,11 @@ extension Blockchain {
         /// Ethereum
         case ETH
         
-        /// Binance
+        /// Binance Beacon Chain
         case BNB
+        
+        /// Binance Smart Chain
+        case BSC
         
         /// Ripple
         case XRP
@@ -96,6 +99,8 @@ extension Blockchain.Coin: CoinCurrencyDescription {
             return .bitcoin
         case .BNB:
             return .binance
+        case .BSC:
+            return .binanceSmartChain
         case .ETH:
             return .ethereum
         case .XRP:
@@ -127,6 +132,8 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     
     public var displayName: String {
         switch self {
+        case .BSC:
+            return "BNB"
         default:
             var name = "\(self)".capitalizingFirstLetter()
         

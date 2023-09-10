@@ -8,49 +8,52 @@ import Foundation
 @available(iOS 13.0, *)
 public enum Blockchain: String, Codable, CaseIterable {
     
-    /// Bitcoin
+    /// Bitcoin ✅
     case bitcoin
     
-    /// Litecoin
+    /// Litecoin ⭕️
     case litecoin
     
-    /// Ethereum
+    /// Ethereum ✅
     case ethereum
     
-    /// Binance
-    case binance
-    
-    /// Cardano
-    case cardano
-    
-    /// Solana
-    case solana
-    
-    /// Tron
-    case tron
-    
-    /// Toncoin
-    case toncoin
-    
-    /// Ripple
-    case ripple
-    
-    /// Stellar
-    case stellar
-    
-    /// Cosmos
-    case cosmos
-    
-    /// Polkadot
-    case polkadot
-    
-    /// Ethereum Classic
+    /// Ethereum Classic ✅
     case ethereumClassic
     
-    /// Bitcoin Cash
+    /// Binance ⭕️
+    case binance
+    
+    /// Binance Smart Chain ✅
+    case binanceSmartChain
+    
+    /// Cardano ⭕️
+    case cardano
+    
+    /// Solana ⭕️
+    case solana
+    
+    /// Tron ✅
+    case tron
+    
+    /// Toncoin ✅
+    case toncoin
+    
+    /// Ripple ✅
+    case ripple
+    
+    /// Stellar ⭕️
+    case stellar
+    
+    /// Cosmos ✅
+    case cosmos
+    
+    /// Polkadot ⭕️
+    case polkadot
+    
+    /// Bitcoin Cash ⭕️
     case bitcoinCash
     
-    /// Dogecoin
+    /// Dogecoin ⭕️
     case dogecoin
 
 }
@@ -63,6 +66,7 @@ public extension Blockchain {
         case .ethereum: return Blockchain.TokenType.ERC20.name
         case .binance: return Blockchain.TokenType.BEP2.name
         case .tron: return Blockchain.TokenType.TRC20.name
+        case .binanceSmartChain: return Blockchain.TokenType.BEP20.name
         default:
             return nil
         }
@@ -106,6 +110,8 @@ public extension Blockchain {
             return .ETH
         case .binance:
             return .BNB
+        case .binanceSmartChain:
+            return .BNB
         case .cardano:
             return .ADA
         case .solana:
@@ -137,7 +143,7 @@ extension Blockchain: DecimalValueDescription {
         switch self {
         case .bitcoin, .binance, .bitcoinCash, .litecoin, .dogecoin:
             return 8
-        case .ethereum, .ethereumClassic:
+        case .ethereum, .ethereumClassic, .binanceSmartChain:
             return 18
         case  .tron, .ripple:
             return 7
