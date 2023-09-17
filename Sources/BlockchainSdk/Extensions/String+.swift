@@ -87,3 +87,20 @@ extension String: Error, LocalizedError {
         return self
     }
 }
+
+fileprivate var hexPrefix = "0x"
+
+public extension String {
+    
+    func stripHexPrefix() -> String {
+        var hex = self
+        if hex.hasPrefix(hexPrefix) {
+            hex = String(hex.dropFirst(hexPrefix.count))
+        }
+        return hex
+    }
+    
+    func addHexPrefix() -> String {
+        return hexPrefix.appending(self)
+    }
+}

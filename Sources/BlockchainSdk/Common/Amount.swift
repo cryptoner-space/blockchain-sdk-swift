@@ -58,6 +58,23 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         return BigUInt.parseToBigUInt("\(value)", decimals: decimals)
     }
     
+    public var encoded: Data? {
+        guard let bigUIntValue = bigUIntValue else {
+            return nil
+        }
+        
+        let amountData = bigUIntValue.serialize()
+        return amountData
+    }
+    
+    public var encodedForSend: String? {
+        if isZero {
+            return "0x0"
+        }
+        
+        return encoded?.hex.stripLeadingZeroes().addHexPrefix()
+    }
+    
     // MARK: - Init
     
     public init(type: AmountType, value: Decimal) {
