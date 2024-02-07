@@ -7,7 +7,11 @@
 
 import Foundation
 
-public struct AmountCurrency: Codable {
+public struct AmountCurrency: Codable, Identifiable {
+    public var id: String {
+        currency.id
+    }
+    
     public let currency: Currency
     public let amount: String
     
