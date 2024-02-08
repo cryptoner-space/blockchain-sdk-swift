@@ -8,6 +8,11 @@
 import Foundation
 
 public struct Address: Codable {
-    let value: String
-    let derivationPath: DerivationPath
+    public let value: String
+    public let derivationPath: DerivationPath
+    
+    public init(value: String, derivationPath: DerivationPath) {
+        self.value = value
+        self.derivationPath = derivationPath
+    }
 }

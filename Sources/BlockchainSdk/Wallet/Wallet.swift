@@ -9,12 +9,14 @@ import Foundation
 
 // MARK: - Wallet Model
 
-public final class Wallet {
+public final class Wallet: Identifiable {
+    public let id: String
     public let items: [Item]
     
     // MARK: - Init
     
-    public init(items: [Item]) {
+    public init(id: String, items: [Item]) {
+        self.id = id
         self.items = items
     }
 }
