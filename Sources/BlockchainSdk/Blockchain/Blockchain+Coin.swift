@@ -163,6 +163,10 @@ extension Blockchain.Coin: CoinCurrencyDescription {
         nil
     }
     
+    public func resolveCurrency() throws -> Currency {
+        Currency(self)
+    }
+    
     public func resolveAmountType() throws -> AmountType {
         amountType
     }

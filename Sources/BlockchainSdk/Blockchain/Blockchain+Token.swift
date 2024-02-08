@@ -12,34 +12,61 @@ extension Blockchain {
     public struct Token: TokenCurrencyDescription {
         // MARK: - Computed Properties
         
-        public var id: String { item.rawValue }
-        public var currencyType: CurrencyType { .token }
-        public var contractAddress: String { item.contractAddress(for: blockchain) ?? "" }
-        public var currencySymbol: String { item.currencySymbol }
-        public var displayName: String { item.displayName }
+        public let id: String
+        public let contractAddress: String
+        public let currencySymbol: String
+        public let displayName: String
+        public let decimalCount: Int
+        public let currencySign: String?
         
-        public var decimalCount: Int {
-            switch item {
-            case .USDT where blockchain == .ethereum:
-                return 6
-            default:
-                return blockchain.decimalCount
-            }
+        public var currencyType: CurrencyType { .token }
+        
+        public var tokenItem: Item? {
+            return .init(rawValue: id)
         }
         
         // MARK: - Input Properties
         
-        public let item: Token.Item
         public let blockchain: Blockchain
-        
-        public var currencySign: String?
         
         // MARK: - Init
         
-        public init(item: Token.Item, blockchain: Blockchain, currencySign: String? = nil) {
-            self.item = item
-            self.blockchain = blockchain
+        public init(
+            id: String,
+            contractAddress: String,
+            currencySymbol: String,
+            displayName: String,
+            decimalCount: Int,
+            currencySign: String,
+            blockchain: Blockchain
+        ) {
+            self.id = id
+            self.contractAddress = contractAddress
+            self.currencySymbol = currencySymbol
+            self.displayName = displayName
+            self.decimalCount = decimalCount
             self.currencySign = currencySign
+            self.blockchain = blockchain
+        }
+        
+        public init(
+            item: Token.Item,
+            currencySign: String? = nil,
+            blockchain: Blockchain
+        ) {
+            self.id = item.rawValue
+            self.contractAddress = item.contractAddress(for: blockchain) ?? ""
+            self.currencySymbol = item.currencySymbol
+            self.displayName = item.displayName
+            self.decimalCount = item.decimalCount(for: blockchain)
+            self.currencySign = currencySign
+            self.blockchain = blockchain
+        }
+        
+        // MARK: - Resolving
+        
+        public func resolveCurrency() throws -> Currency {
+            Currency(self)
         }
         
         public func resolveAmountType() throws -> AmountType {
@@ -104,6 +131,15 @@ public extension Blockchain.Token {
                 return "0xdAC17F958D2ee523a2206206994597C13D831ec7"
             default:
                 return nil
+            }
+        }
+        
+        public func decimalCount(for blockchain: Blockchain) -> Int {
+            switch self {
+            case .USDT where blockchain == .ethereum:
+                return 6
+            default:
+                return blockchain.decimalCount
             }
         }
     }

@@ -95,3 +95,9 @@ public extension Data {
         return Data([UInt8(wCRC & 0xFF), UInt8((wCRC & 0xFFFF) >> 8)])
     }
 }
+
+public extension Data {
+    func toInt() -> Int? {
+        return Int(hexData: self)
+    }
+}

@@ -7,7 +7,9 @@
 
 import Foundation
 
-public protocol CoinCurrencyDescription: CurrencyDescription, CurrencyInfoDescription {}
+public protocol CoinCurrencyDescription: CurrencyDescription, CurrencyInfoDescription {
+    func resolveCurrency() throws -> Currency
+}
 
 extension CoinCurrencyDescription {
     public var amountType: AmountType {

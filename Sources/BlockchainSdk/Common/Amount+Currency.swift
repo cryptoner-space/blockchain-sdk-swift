@@ -22,7 +22,7 @@ public struct AmountCurrency: Codable, Identifiable {
     
     public func parseAmountType(from currencies: [any CurrencyDescription]) throws -> AmountType {
         guard let currencyDescription = currencies.first(where: { $0.id == currency.id }) else {
-            throw CurrencyParseError.parseAmountType
+            throw CurrencyParseError.failedParseAmountType
         }
         
         return try currencyDescription.resolveAmountType()
@@ -33,7 +33,7 @@ public struct AmountCurrency: Codable, Identifiable {
     /// - Returns: Amount value
     public func value(with amountType: AmountType, devide: Bool = false) throws -> Amount {
         guard let parseValue = Decimal(string: amount) else {
-            throw CurrencyParseError.parseValue
+            throw CurrencyParseError.failedParseValue
         }
         
         let value = devide ? parseValue / currency.decimalValue : parseValue

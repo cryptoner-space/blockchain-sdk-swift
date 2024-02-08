@@ -45,6 +45,10 @@ public extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
+    
+    func remove(_ substring: String) -> String {
+        return self.replacingOccurrences(of: substring, with: "")
+    }
 }
 
 public extension String {
@@ -102,5 +106,11 @@ public extension String {
     
     func addHexPrefix() -> String {
         return hexPrefix.appending(self)
+    }
+}
+
+extension String.SubSequence {
+    internal func trim() -> String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

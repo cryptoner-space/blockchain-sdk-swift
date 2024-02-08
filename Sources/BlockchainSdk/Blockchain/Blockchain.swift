@@ -60,6 +60,10 @@ public enum Blockchain: String, Codable, CaseIterable {
 // MARK: - Implementation
 
 public extension Blockchain {
+    var displayName: String {
+        self.rawValue.capitalizingFirstLetter()
+    }
+    
     var tokenTypeName: String? {
         switch self {
         case .ethereum: return Blockchain.TokenType.ERC20.name
