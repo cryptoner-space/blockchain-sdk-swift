@@ -16,85 +16,20 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
     /// Crypto type currency
     public let type: AmountType
     
-    /// Currency symbol
-    public var currencySymbol: String {
-        switch type {
-        case .coin(let description):
-            return description.currencySymbol
-        case .token(let token, _):
-            return token.currencySymbol
-        case .fiat(_, let symbol, _):
-            return symbol
-        case .custom(_, _, let symbol, _):
-            return symbol
-        }
-    }
-    
-    /// Currency sign
-    public var currencySign: String? {
-        switch type {
-        case .coin(let description):
-            return description.currencySign
-        case .token(let token, _):
-            return token.currencySign
-        case .fiat(_, _, let currencySign):
-            return currencySign
-        case .custom(_, _, _, let currencySign):
-            return currencySign
-        }
-    }
-    
     /// Value of amount
     public var value: Decimal
     
-    ///
+    /// Decimal count for Formatter value
     public let decimals: Int
     
     // MARK: - Public Helpers
-    
-    public var isZero: Bool {
-        return value == 0
-    }
     
     public var description: String {
         return string()
     }
     
-    public var int64Value: Int64 {
-        return NSDecimalNumber(decimal: self.value).int64Value
-    }
-    
-    public var doubleValue: Double {
-        return NSDecimalNumber(decimal: self.value).doubleValue
-    }
-    
-    public var bigUIntValue: BigUInt? {
-        if isZero {
-            return BigUInt.zero
-        }
-        
-        if value == Decimal.greatestFiniteMagnitude {
-            return BigUInt(2).power(256) - 1
-        }
-
-        return BigUInt.parseToBigUInt("\(value)", decimals: decimals)
-    }
-    
-    public var encoded: Data? {
-        guard let bigUIntValue = bigUIntValue else {
-            return nil
-        }
-        
-        let amountData = bigUIntValue.serialize()
-        return amountData
-    }
-    
-    public var encodedForSend: String? {
-        if isZero {
-            return "0x0"
-        }
-        
-        return encoded?.hex.stripLeadingZeroes().addHexPrefix()
+    public var formattedValue: String {
+        value.formatted()
     }
     
     // MARK: - Init
@@ -148,8 +83,60 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         return formatter.string(from: rounded as NSDecimalNumber) ??
             "\(rounded) \(currencySymbol)"
     }
+}
+
+// MARK: - Computed
+
+public extension Amount {
+    /// Currency symbol
+    var currencySymbol: String {
+        switch type {
+        case .coin(let description):
+            return description.currencySymbol
+        case .token(let token, _):
+            return token.currencySymbol
+        case .fiat(_, let symbol, _):
+            return symbol
+        case .custom(_, _, let symbol, _):
+            return symbol
+        }
+    }
     
-    public static func ==(lhs: Amount, rhs: Amount) -> Bool {
+    /// Currency sign
+    var currencySign: String? {
+        switch type {
+        case .coin(let description):
+            return description.currencySign
+        case .token(let token, _):
+            return token.currencySign
+        case .fiat(_, _, let currencySign):
+            return currencySign
+        case .custom(_, _, _, let currencySign):
+            return currencySign
+        }
+    }
+}
+
+// MARK: - Values
+
+public extension Amount {
+    var isZero: Bool {
+        return value == 0
+    }
+    
+    var int64Value: Int64 {
+        return NSDecimalNumber(decimal: self.value).int64Value
+    }
+    
+    var doubleValue: Double {
+        return NSDecimalNumber(decimal: self.value).doubleValue
+    }
+}
+
+// MARK: - Comparable
+
+public extension Amount {
+    static func ==(lhs: Amount, rhs: Amount) -> Bool {
         if lhs.type != rhs.type {
             return false
         }
@@ -157,28 +144,60 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         return lhs.value == rhs.value
     }
     
-    static public func -(l: Amount, r: Amount) -> Amount {
+    static func -(l: Amount, r: Amount) -> Amount {
         if l.type != r.type {
             return l
         }
         return Amount(l, value: l.value - r.value)
     }
     
-    static public func +(l: Amount, r: Amount) -> Amount {
+    static func +(l: Amount, r: Amount) -> Amount {
         if l.type != r.type {
             return l
         }
         return Amount(l, value: l.value + r.value)
     }
     
-    public static func < (lhs: Amount, rhs: Amount) -> Bool {
+    static func < (lhs: Amount, rhs: Amount) -> Bool {
         if lhs.type != rhs.type {
             fatalError("Compared amounts must be the same type")
         }
         
         return lhs.value < rhs.value
     }
+}
+
+// MARK: - Supported Encoding
+
+public extension Amount {
+    var bigUIntValue: BigUInt? {
+        if isZero {
+            return BigUInt.zero
+        }
+        
+        if value == Decimal.greatestFiniteMagnitude {
+            return BigUInt(2).power(256) - 1
+        }
+
+        return BigUInt.parseToBigUInt("\(value)", decimals: decimals)
+    }
     
+    var encoded: Data? {
+        guard let bigUIntValue = bigUIntValue else {
+            return nil
+        }
+        
+        let amountData = bigUIntValue.serialize()
+        return amountData
+    }
+    
+    var encodedForSend: String? {
+        if isZero {
+            return "0x0"
+        }
+        
+        return encoded?.hex.stripLeadingZeroes().addHexPrefix()
+    }
 }
 
 // MARK: - AmountType
