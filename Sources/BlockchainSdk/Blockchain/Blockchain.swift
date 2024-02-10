@@ -5,7 +5,7 @@ import Foundation
 // MARK: - Blockchain
 
 /// Main structure blockchain Sdk
-public enum Blockchain: String, Codable, CaseIterable {
+public enum Blockchain: String, Codable, CaseIterable, Hashable {
     
     /// Bitcoin ✅
     case bitcoin

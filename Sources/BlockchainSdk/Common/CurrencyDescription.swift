@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol CurrencyDescription: Identifiable, Codable, DecimalValueDescription where ID == String {
+public protocol CurrencyDescription: Identifiable, Codable, Hashable, DecimalValueDescription where ID == String {
     var blockchain:         Blockchain      { get }
     var currencyType:       CurrencyType    { get }
     var decimalCount:       Int             { get }
