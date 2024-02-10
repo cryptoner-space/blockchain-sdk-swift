@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Currency: Codable, Equatable, CurrencyDescription, CurrencyInfoDescription {
+public struct Currency: CurrencyDescription, CurrencyInfoDescription {
     
     // MARK: - CurrencyDescription
     
@@ -77,4 +77,16 @@ public struct Currency: Codable, Equatable, CurrencyDescription, CurrencyInfoDes
 public enum CurrencyParseError: Error, LocalizedError {
     case failedParseValue
     case failedParseAmountType
+}
+
+extension Currency: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(blockchain)
+        hasher.combine(currencyType.rawValue)
+        
+        if let contractAddress {
+            hasher.combine(contractAddress)
+        }
+    }
 }
