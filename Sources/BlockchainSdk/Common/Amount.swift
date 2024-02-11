@@ -29,7 +29,7 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
     }
     
     public var formattedValue: String {
-        value.formatted()
+        NSDecimalNumber(decimal: value).stringValue
     }
     
     // MARK: - Init
