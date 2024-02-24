@@ -71,11 +71,11 @@ public struct Currency: CurrencyDescription, CurrencyInfoDescription {
         }
     }
         
-    private func resolveCoin() -> (any CoinCurrencyDescription)? {
+    public func resolveCoin() -> (any CoinCurrencyDescription)? {
         return Blockchain.Coin(rawValue: id)
     }
     
-    private func resolveToken() -> (any TokenCurrencyDescription)? {
+    public func resolveToken() -> (any TokenCurrencyDescription)? {
         return Blockchain.Token(
             id: id,
             contractAddress: contractAddress ?? "",
