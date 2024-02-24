@@ -55,27 +55,36 @@ public struct Currency: CurrencyDescription, CurrencyInfoDescription {
     public func resolveAmountType() throws -> AmountType {
         switch currencyType {
         case .coin:
-            guard let amountType = try Blockchain.Coin(rawValue: id)?.resolveAmountType() else {
+            guard let coin = resolveCoin() else {
                 throw CurrencyParseError.failedParseAmountType
             }
             
-            return amountType
+            return try coin.resolveAmountType()
         case .token:
-            
-            let token = Blockchain.Token(
-                id: id,
-                contractAddress: contractAddress ?? "",
-                currencySymbol: currencySymbol,
-                displayName: displayName,
-                decimalCount: decimalCount,
-                currencySign: currencySign ?? "",
-                blockchain: blockchain
-            )
+            guard let token = resolveToken() else {
+                throw CurrencyParseError.failedParseAmountType
+            }
             
             return try token.resolveAmountType()
         case .custom:
             throw CurrencyParseError.failedParseAmountType
         }
+    }
+        
+    private func resolveCoin() -> (any CoinCurrencyDescription)? {
+        return Blockchain.Coin(rawValue: id)
+    }
+    
+    private func resolveToken() -> (any TokenCurrencyDescription)? {
+        return Blockchain.Token(
+            id: id,
+            contractAddress: contractAddress ?? "",
+            currencySymbol: currencySymbol,
+            displayName: displayName,
+            decimalCount: decimalCount,
+            currencySign: currencySign ?? "",
+            blockchain: blockchain
+        )
     }
 }
 
