@@ -58,6 +58,9 @@ extension Blockchain {
         /// Ethereum Classic
         case ETC
         
+        /// Arbitrum
+        case ARB
+        
         // MARK: - Init
         
         public init?(blockchain: Blockchain) {
@@ -85,7 +88,12 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     }
     
     public var currencySymbol: String {
-        return self.rawValue.uppercased()
+        switch self {
+        case .ARB:
+            return Self.ETH.rawValue
+        default:
+            return self.rawValue.uppercased()
+        }
     }
     
     public var currencySign: String? {
@@ -126,6 +134,8 @@ extension Blockchain.Coin: CoinCurrencyDescription {
             return .stellar
         case .ATOM:
             return .cosmos
+        case .ARB:
+            return .arbitrum
         }
     }
     
@@ -145,18 +155,7 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     }
     
     public var decimalCount: Int {
-        switch self.blockchain {
-        case .bitcoin, .binance:
-            return 8
-        case .ethereum:
-            return 18
-        case  .tron, .ripple:
-            return 7
-        case .solana, .toncoin:
-            return 9
-        default:
-            return 0
-        }
+        blockchain.decimalCount
     }
     
     public var contractAddress: String? {

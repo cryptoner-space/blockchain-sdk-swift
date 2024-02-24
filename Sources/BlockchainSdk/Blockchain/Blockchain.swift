@@ -31,6 +31,9 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable {
     /// Cosmos ✅
     case cosmos
     
+    /// Arbitrum ✅
+    case arbitrum
+    
     /// Litecoin ⭕️
     case litecoin
     
@@ -77,7 +80,7 @@ public extension Blockchain {
     
     var canHandleTokens: Bool {
         switch self {
-        case .ethereum, .binance, .solana, .tron:
+        case .ethereum, .binance, .solana, .tron, .arbitrum:
             return true
         default:
             return false
@@ -86,7 +89,7 @@ public extension Blockchain {
     
     var isEvm: Bool {
         switch self {
-        case .ethereumClassic, .binanceSmartChain:
+        case .ethereumClassic, .binanceSmartChain, .arbitrum:
             return true
         default:
             return false
@@ -142,6 +145,8 @@ public extension Blockchain {
             return .ETC
         case .bitcoinCash:
             return .BCH
+        case .arbitrum:
+            return .ARB
         default:
             return nil
         }
@@ -155,7 +160,7 @@ extension Blockchain: DecimalValueDescription {
         switch self {
         case .bitcoin, .binance, .bitcoinCash, .litecoin, .dogecoin:
             return 8
-        case .ethereum, .ethereumClassic, .binanceSmartChain:
+        case .ethereum, .ethereumClassic, .binanceSmartChain, .arbitrum:
             return 18
         case  .tron, .ripple:
             return 7
