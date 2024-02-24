@@ -61,6 +61,9 @@ extension Blockchain {
         /// Arbitrum
         case ARB
         
+        /// Arbitrum Ethereum
+        case ARB_ETH
+        
         // MARK: - Init
         
         public init?(blockchain: Blockchain) {
@@ -89,7 +92,7 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     
     public var currencySymbol: String {
         switch self {
-        case .ARB:
+        case .ARB_ETH:
             return Self.ETH.rawValue
         default:
             return self.rawValue.uppercased()
@@ -136,13 +139,13 @@ extension Blockchain.Coin: CoinCurrencyDescription {
             return .cosmos
         case .ARB:
             return .arbitrum
+        case .ARB_ETH:
+            return .arbitrum
         }
     }
     
     public var displayName: String {
         switch self {
-        case .BSC:
-            return "BNB"
         default:
             var name = "\(self)".capitalizingFirstLetter()
         

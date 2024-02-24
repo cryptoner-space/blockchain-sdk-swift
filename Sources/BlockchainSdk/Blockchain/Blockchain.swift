@@ -7,14 +7,10 @@ import Foundation
 /// Main structure blockchain Sdk
 public enum Blockchain: String, Codable, CaseIterable, Hashable {
     
-    /// Bitcoin ✅
-    case bitcoin
+    // MARK: - Supported
     
     /// Ethereum ✅
     case ethereum
-    
-    /// Ethereum Classic ✅
-    case ethereumClassic
     
     /// Tron ✅
     case tron
@@ -22,17 +18,25 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable {
     /// Toncoin ✅
     case toncoin
     
-    /// Ripple ✅
-    case ripple
-    
-    /// Binance Smart Chain ✅
-    case binanceSmartChain
-    
-    /// Cosmos ✅
-    case cosmos
-    
     /// Arbitrum ✅
     case arbitrum
+    
+    // MARK: - Unsupported
+    
+    /// Ethereum Classic ⭕️
+    case ethereumClassic
+    
+    /// Bitcoin ⭕️
+    case bitcoin
+    
+    /// Binance Smart Chain ⭕️
+    case binanceSmartChain
+    
+    /// Cosmos ⭕️
+    case cosmos
+    
+    /// Ripple ⭕️
+    case ripple
     
     /// Litecoin ⭕️
     case litecoin
@@ -63,6 +67,10 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable {
 // MARK: - Implementation
 
 public extension Blockchain {
+    var supported: [Blockchain] {
+        [.ethereum, .toncoin, .arbitrum, .tron]
+    }
+    
     var displayName: String {
         self.rawValue.capitalizingFirstLetter()
     }
@@ -70,9 +78,7 @@ public extension Blockchain {
     var tokenTypeName: String? {
         switch self {
         case .ethereum: return Blockchain.TokenType.ERC20.name
-        case .binance: return Blockchain.TokenType.BEP2.name
         case .tron: return Blockchain.TokenType.TRC20.name
-        case .binanceSmartChain: return Blockchain.TokenType.BEP20.name
         default:
             return nil
         }
@@ -89,30 +95,44 @@ public extension Blockchain {
     
     var isEvm: Bool {
         switch self {
-        case .ethereumClassic, .binanceSmartChain, .arbitrum:
+        case .ethereumClassic, 
+                .binanceSmartChain,
+                .arbitrum:
             return true
         default:
             return false
         }
     }
-    
-    func isFeeApproximate(for amountType: AmountType) -> Bool {
+}
+
+// MARK: - DecimalValueDescription
+
+extension Blockchain: DecimalValueDescription {
+    public var decimalCount: Int {
         switch self {
-        case .stellar, .toncoin:
-            return true
-        case .tron:
-            if case .token = amountType {
-                return true
-            }
+        case .bitcoin, .binance, .bitcoinCash, .litecoin, .dogecoin:
+            return 8
+        case .ethereum, .ethereumClassic, .binanceSmartChain, .arbitrum:
+            return 18
+        case  .tron, .ripple:
+            return 7
+        case .solana, .toncoin:
+            return 9
         default:
-            break
+            return 0
         }
-        
-        return false
+    }
+    
+    public var decimalValue: Decimal {
+        return pow(Decimal(10), decimalCount)
+    }
+    
+    public func decimalRate(per value: Decimal) -> Decimal {
+        value * Decimal(pow(10.0, -Double(decimalCount)))
     }
 }
 
-// MARK: -
+// MARK: - Coin Resolve
 
 public extension Blockchain {
     var coin: Blockchain.Coin? {
@@ -153,38 +173,11 @@ public extension Blockchain {
     }
 }
 
-// MARK: - DecimalValueDescription
-
-extension Blockchain: DecimalValueDescription {
-    public var decimalCount: Int {
-        switch self {
-        case .bitcoin, .binance, .bitcoinCash, .litecoin, .dogecoin:
-            return 8
-        case .ethereum, .ethereumClassic, .binanceSmartChain, .arbitrum:
-            return 18
-        case  .tron, .ripple:
-            return 7
-        case .solana, .toncoin:
-            return 9
-        default:
-            return 0
-        }
-    }
-    
-    public var decimalValue: Decimal {
-        return pow(Decimal(10), decimalCount)
-    }
-    
-    public func decimalRate(per value: Decimal) -> Decimal {
-        value * Decimal(pow(10.0, -Double(decimalCount)))
-    }
-}
-
 // MARK: - TokenType
 
 public extension Blockchain {
     enum TokenType: String, Codable {
-        case ERC20, BEP20, TRC20, TON, BEP2
+        case ERC20, BEP20, TRC20
         
         var name: String {
             self.rawValue.uppercased()
