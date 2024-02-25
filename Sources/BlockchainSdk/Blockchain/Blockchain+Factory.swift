@@ -14,13 +14,13 @@ public extension Blockchain {
         }
         
         public static func tokens() -> [Blockchain.Token] {
-            let tokens: [[Blockchain.Token]] = Blockchain.Token.Item.allCases.map { item in
+            let tokens: [[Blockchain.Token]] = Blockchain.Token.Stablecoin.allCases.map { item in
                 let tokens = item.blockchains.compactMap { blockchain -> Blockchain.Token? in
                     guard item.blockchains.contains(blockchain) else {
                         return nil
                     }
                     
-                    return Token(item: item, blockchain: blockchain)
+                    return Token(stablecoin: item, blockchain: blockchain)
                 }
                 
                 return tokens

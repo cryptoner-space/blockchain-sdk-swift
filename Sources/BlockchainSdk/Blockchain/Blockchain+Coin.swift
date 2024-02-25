@@ -11,58 +11,58 @@ extension Blockchain {
     /// Main structure blockchain Sdk
     public enum Coin: String, Codable, CaseIterable {
         /// Bitcoin
-        case BTC
+        case btc
         
         /// Ethereum
-        case ETH
+        case eth
         
         /// Binance Beacon Chain
-        case BNB
+        case bnb
         
         /// Binance Smart Chain
-        case BSC
+        case bsc
         
         /// Ripple
-        case XRP
+        case xrp
         
         /// Dogecoin
-        case DOGE
+        case doge
         
         /// Cardano
-        case ADA
+        case ada
         
         /// Solana
-        case SOL
+        case sol
         
         /// Tron
-        case TRX
+        case trx
         
         /// DOT
-        case DOT
+        case dot
         
         /// LTC
-        case LTC
+        case ltc
         
         /// Toncoin
-        case TON
+        case ton
         
         /// Bitcoin Cash
-        case BCH
+        case bch
         
         /// Stellar
-        case XLM
+        case xlm
         
         /// Cosmos
-        case ATOM
+        case atom
         
         /// Ethereum Classic
-        case ETC
+        case etc
         
         /// Arbitrum
-        case ARB
+        case arb
         
         /// Arbitrum Ethereum
-        case ARB_ETH
+        case arbOne
         
         // MARK: - Init
         
@@ -92,8 +92,8 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     
     public var currencySymbol: String {
         switch self {
-        case .ARB_ETH:
-            return Self.ETH.rawValue
+        case .arbOne:
+            return Self.eth.rawValue.uppercased()
         default:
             return self.rawValue.uppercased()
         }
@@ -105,56 +105,47 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     
     public var blockchain: Blockchain {
         switch self {
-        case .BTC:
+        case .btc:
             return .bitcoin
-        case .BNB:
+        case .bnb:
             return .binance
-        case .BSC:
+        case .bsc:
             return .binanceSmartChain
-        case .ETH:
+        case .eth:
             return .ethereum
-        case .ETC:
+        case .etc:
             return .ethereumClassic
-        case .XRP:
+        case .xrp:
             return .ripple
-        case .DOGE:
+        case .doge:
             return .dogecoin
-        case .ADA:
+        case .ada:
             return .cardano
-        case .SOL:
+        case .sol:
             return .solana
-        case .TRX:
+        case .trx:
             return .tron
-        case .DOT:
+        case .dot:
             return .polkadot
-        case .LTC:
-            return .bitcoin
-        case .TON:
+        case .ltc:
+            return .litecoin
+        case .ton:
             return .toncoin
-        case .BCH:
+        case .bch:
             return .bitcoinCash
-        case .XLM:
+        case .xlm:
             return .stellar
-        case .ATOM:
+        case .atom:
             return .cosmos
-        case .ARB:
+        case .arb:
             return .arbitrum
-        case .ARB_ETH:
-            return .arbitrum
+        case .arbOne:
+            return .arbitrumOne
         }
     }
     
     public var displayName: String {
-        switch self {
-        default:
-            var name = "\(self)".capitalizingFirstLetter()
-        
-            if let index = name.firstIndex(of: "(") {
-                name = String(name.prefix(upTo: index))
-            }
-        
-            return name
-        }
+        "\(blockchain.displayName) - \(currencySymbol)"
     }
     
     public var decimalCount: Int {

@@ -18,8 +18,8 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable {
     /// Toncoin ✅
     case toncoin
     
-    /// Arbitrum ✅
-    case arbitrum
+    /// Arbitrum One ✅
+    case arbitrumOne
     
     // MARK: - Unsupported
     
@@ -61,6 +61,9 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable {
     
     /// Dogecoin ⭕️
     case dogecoin
+    
+    /// Arbitrum ⭕️
+    case arbitrum
 
 }
 
@@ -68,7 +71,7 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable {
 
 public extension Blockchain {
     var supported: [Blockchain] {
-        [.ethereum, .toncoin, .arbitrum, .tron]
+        [.ethereum, .toncoin, .arbitrumOne, .tron]
     }
     
     var displayName: String {
@@ -86,7 +89,11 @@ public extension Blockchain {
     
     var canHandleTokens: Bool {
         switch self {
-        case .ethereum, .binance, .solana, .tron, .arbitrum:
+        case .ethereum, 
+                .binance,
+                .solana,
+                .tron,
+                .arbitrumOne:
             return true
         default:
             return false
@@ -97,7 +104,7 @@ public extension Blockchain {
         switch self {
         case .ethereumClassic, 
                 .binanceSmartChain,
-                .arbitrum:
+                .arbitrumOne:
             return true
         default:
             return false
@@ -112,7 +119,7 @@ extension Blockchain: DecimalValueDescription {
         switch self {
         case .bitcoin, .binance, .bitcoinCash, .litecoin, .dogecoin:
             return 8
-        case .ethereum, .ethereumClassic, .binanceSmartChain, .arbitrum:
+        case .ethereum, .ethereumClassic, .binanceSmartChain, .arbitrumOne:
             return 18
         case  .tron, .ripple:
             return 7
@@ -136,40 +143,7 @@ extension Blockchain: DecimalValueDescription {
 
 public extension Blockchain {
     var coin: Blockchain.Coin? {
-        switch self {
-        case .bitcoin:
-            return .BTC
-        case .litecoin:
-            return .LTC
-        case .ethereum:
-            return .ETH
-        case .binance:
-            return .BNB
-        case .binanceSmartChain:
-            return .BSC
-        case .cardano:
-            return .ADA
-        case .solana:
-            return .SOL
-        case .tron:
-            return .TRX
-        case .toncoin:
-            return .TON
-        case .ripple:
-            return .XRP
-        case .stellar:
-            return .XLM
-        case .cosmos:
-            return .ATOM
-        case .ethereumClassic:
-            return .ETC
-        case .bitcoinCash:
-            return .BCH
-        case .arbitrum:
-            return .ARB
-        default:
-            return nil
-        }
+        Blockchain.Coin.allCases.first(where: { $0.blockchain == self })
     }
 }
 

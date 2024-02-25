@@ -8,29 +8,15 @@
 import Foundation
 
 public extension Blockchain.Token {
-    enum Item: String, Codable, CaseIterable {
+    enum Stablecoin: String, Codable, CaseIterable {
         /// Stablecoin Thether
         case USDT
-        
-        /// BNB Token
-        case BNB
-        
-        /// USD Coin
-        case USDC
-        
-        /// TRON Token
-        case TRON
-        
-        /// Token Wrapped TON Coin
-        case TONCOIN
         
         // MARK: - Implementation
         
         public var blockchains: [Blockchain] {
             switch self {
-            case .USDT, .BNB, .USDC:
-                return [.ethereum, .tron]
-            case .TRON, .TONCOIN:
+            case .USDT:
                 return [.ethereum, .tron]
             }
         }
@@ -43,17 +29,6 @@ public extension Blockchain.Token {
             switch self {
             case .USDT:
                 return "Tether USD"
-            default:
-                return ""
-            }
-        }
-        
-        public var isStablecoin: Bool {
-            switch self {
-            case .USDT, .USDC:
-                return true
-            default:
-                return false
             }
         }
         
@@ -61,6 +36,8 @@ public extension Blockchain.Token {
             switch self {
             case .USDT where blockchain == .ethereum:
                 return "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+            case .USDT where blockchain == .tron:
+                return "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
             default:
                 return nil
             }
@@ -69,6 +46,8 @@ public extension Blockchain.Token {
         public func decimalCount(for blockchain: Blockchain) -> Int {
             switch self {
             case .USDT where blockchain == .ethereum:
+                return 6
+            case .USDT where blockchain == .tron:
                 return 6
             default:
                 return blockchain.decimalCount

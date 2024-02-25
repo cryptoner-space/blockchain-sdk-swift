@@ -21,10 +21,6 @@ extension Blockchain {
         
         public var currencyType: CurrencyType { .token }
         
-        public var tokenItem: Item? {
-            return .init(rawValue: id)
-        }
-        
         // MARK: - Input Properties
         
         public let blockchain: Blockchain
@@ -50,15 +46,15 @@ extension Blockchain {
         }
         
         public init(
-            item: Token.Item,
+            stablecoin: Stablecoin,
             currencySign: String? = nil,
             blockchain: Blockchain
         ) {
-            self.id = item.rawValue
-            self.contractAddress = item.contractAddress(for: blockchain) ?? ""
-            self.currencySymbol = item.currencySymbol
-            self.displayName = item.displayName
-            self.decimalCount = item.decimalCount(for: blockchain)
+            self.id = stablecoin.rawValue
+            self.contractAddress = stablecoin.contractAddress(for: blockchain) ?? ""
+            self.currencySymbol = stablecoin.currencySymbol
+            self.displayName = stablecoin.displayName
+            self.decimalCount = stablecoin.decimalCount(for: blockchain)
             self.currencySign = currencySign
             self.blockchain = blockchain
         }
@@ -72,5 +68,11 @@ extension Blockchain {
         public func resolveAmountType() throws -> AmountType {
             amountType
         }
+    }
+}
+
+extension Blockchain.Token {
+    public var stablecoin: Stablecoin? {
+        return .init(rawValue: id)
     }
 }
