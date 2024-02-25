@@ -1,13 +1,11 @@
 //
-//  File.swift
+//  Data+.swift
 //  
 //
 //  Created by skibinalexander on 01.09.2023.
 //
 
 import Foundation
-import CryptoKit
-import CommonCrypto
 
 public extension Data {
     var hex: String {
@@ -73,23 +71,6 @@ public extension Data {
         
         return prefix + self
     }
-
-    @available(iOS 13.0, *)
-    func getSha256() -> Data {
-        let digest = SHA256.hash(data: self)
-        return Data(digest)
-    }
-    
-    @available(iOS 13.0, *)
-    func getSha512() -> Data {
-        let digest = SHA512.hash(data: self)
-        return Data(digest)
-    }
-
-    @available(iOS 13.0, *)
-    func getDoubleSha256() -> Data {
-        return getSha256().getSha256()
-    }
     
     var toBytes: [Byte] {
         return Array(self)
@@ -112,5 +93,11 @@ public extension Data {
             wCRC = p1 ^ p2 ^ p3
         }
         return Data([UInt8(wCRC & 0xFF), UInt8((wCRC & 0xFFFF) >> 8)])
+    }
+}
+
+public extension Data {
+    func toInt() -> Int? {
+        return Int(hexData: self)
     }
 }

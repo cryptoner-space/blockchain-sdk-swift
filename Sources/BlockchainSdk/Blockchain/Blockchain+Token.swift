@@ -7,63 +7,72 @@
 
 import Foundation
 
-@available(iOS 13.0, *)
 extension Blockchain {
     /// Main structure blockchain Sdk
     public struct Token: TokenCurrencyDescription {
-        public var id: String { item.rawValue }
-        public var currencyType: CurrencyType { .token }
-        public var contractAddress: String { item.contractAddress(for: blockchain) ?? "" }
-        public var currencySymbol: String { item.currencySymbol }
-        public var displayName: String { item.displayName }
-        public var decimalCount: Int { blockchain.decimalCount }
+        // MARK: - Computed Properties
         
-        public let item: Token.Item
+        public let id: String
+        public let contractAddress: String
+        public let currencySymbol: String
+        public let displayName: String
+        public let decimalCount: Int
+        public let currencySign: String?
+        
+        public var currencyType: CurrencyType { .token }
+        
+        // MARK: - Input Properties
+        
         public let blockchain: Blockchain
         
-        public var currencySign: String?
+        // MARK: - Init
+        
+        public init(
+            id: String,
+            contractAddress: String,
+            currencySymbol: String,
+            displayName: String,
+            decimalCount: Int,
+            currencySign: String,
+            blockchain: Blockchain
+        ) {
+            self.id = id
+            self.contractAddress = contractAddress
+            self.currencySymbol = currencySymbol
+            self.displayName = displayName
+            self.decimalCount = decimalCount
+            self.currencySign = currencySign
+            self.blockchain = blockchain
+        }
+        
+        public init(
+            stablecoin: Stablecoin,
+            currencySign: String? = nil,
+            blockchain: Blockchain
+        ) {
+            self.id = stablecoin.rawValue
+            self.contractAddress = stablecoin.contractAddress(for: blockchain) ?? ""
+            self.currencySymbol = stablecoin.currencySymbol
+            self.displayName = stablecoin.displayName
+            self.decimalCount = stablecoin.decimalCount(for: blockchain)
+            self.currencySign = currencySign
+            self.blockchain = blockchain
+        }
+        
+        // MARK: - Resolving
+        
+        public func resolveCurrency() throws -> Currency {
+            Currency(self)
+        }
+        
+        public func resolveAmountType() throws -> AmountType {
+            amountType
+        }
     }
 }
 
-public extension Blockchain.Token {
-    enum Item: String, Codable, CaseIterable {
-        /// Stablecoin Thether
-        case USDT
-        
-        // MARK: - Implementation
-        
-        public var blockchains: [Blockchain] {
-            switch self {
-            case .USDT:
-                return [.ethereum]
-            }
-        }
-        
-        public var currencySymbol: String {
-            return self.rawValue.uppercased()
-        }
-        
-        public var displayName: String {
-            switch self {
-            case .USDT:
-                return "Tether USD"
-            }
-        }
-        
-        public var isStablecoin: Bool {
-            switch self {
-            case .USDT:
-                return true
-            }
-        }
-        
-        public func contractAddress(for blockchain: Blockchain) -> String? {
-            switch self {
-            case .USDT where blockchain == .ethereum:
-                return "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-            default:
-                return nil
-            }
-        }
+extension Blockchain.Token {
+    public var stablecoin: Stablecoin? {
+        return .init(rawValue: id)
     }
 }

@@ -9,6 +9,8 @@ import Foundation
 
 public protocol TokenCurrencyDescription: CurrencyDescription, CurrencyInfoDescription {
     var contractAddress: String { get }
+    
+    func resolveCurrency() throws -> Currency
 }
 
 extension TokenCurrencyDescription {

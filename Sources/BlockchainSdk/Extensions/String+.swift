@@ -45,10 +45,72 @@ public extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
+    
+    func remove(_ substring: String) -> String {
+        return self.replacingOccurrences(of: substring, with: "")
+    }
+}
+
+public extension String {
+    subscript (bounds: CountableClosedRange<Int>) -> String {
+        let start = index(self.startIndex, offsetBy: bounds.lowerBound)
+        let end = index(self.startIndex, offsetBy: bounds.upperBound)
+        return String(self[start...end])
+    }
+    
+    subscript (bounds: CountableRange<Int>) -> String {
+        let start = index(self.startIndex, offsetBy: bounds.lowerBound)
+        let end = index(self.startIndex, offsetBy: bounds.upperBound)
+        return String(self[start..<end])
+    }
+    
+    subscript (bounds: CountablePartialRangeFrom<Int>) -> String {
+        let start = index(self.startIndex, offsetBy: bounds.lowerBound)
+        let end = self.endIndex
+        return String(self[start..<end])
+    }
+    
+    func leftPadding(toLength: Int, withPad character: Character) -> String {
+        let stringLength = self.count
+        if stringLength < toLength {
+            return String(repeatElement(character, count: toLength - stringLength)) + self
+        } else {
+            return String(self.suffix(toLength))
+        }
+    }
+}
+
+public extension String {
+    func serialize() -> String {
+        Data(hex: self).aligned().hex
+    }
 }
 
 extension String: Error, LocalizedError {
     public var errorDescription: String? {
         return self
+    }
+}
+
+fileprivate var hexPrefix = "0x"
+
+public extension String {
+    
+    func stripHexPrefix() -> String {
+        var hex = self
+        if hex.hasPrefix(hexPrefix) {
+            hex = String(hex.dropFirst(hexPrefix.count))
+        }
+        return hex
+    }
+    
+    func addHexPrefix() -> String {
+        return hexPrefix.appending(self)
+    }
+}
+
+extension String.SubSequence {
+    internal func trim() -> String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

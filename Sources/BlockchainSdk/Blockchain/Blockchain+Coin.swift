@@ -9,52 +9,70 @@ import Foundation
 
 extension Blockchain {
     /// Main structure blockchain Sdk
-    @available(iOS 13.0, *)
     public enum Coin: String, Codable, CaseIterable {
         /// Bitcoin
-        case BTC
+        case btc
         
         /// Ethereum
-        case ETH
+        case eth
         
-        /// Binance
-        case BNB
+        /// Binance Beacon Chain
+        case bnb
+        
+        /// Binance Smart Chain
+        case bsc
         
         /// Ripple
-        case XRP
+        case xrp
         
         /// Dogecoin
-        case DOGE
+        case doge
         
         /// Cardano
-        case ADA
+        case ada
         
         /// Solana
-        case SOL
+        case sol
         
         /// Tron
-        case TRX
+        case trx
         
         /// DOT
-        case DOT
+        case dot
         
         /// LTC
-        case LTC
+        case ltc
         
         /// Toncoin
-        case TON
+        case ton
         
         /// Bitcoin Cash
-        case BCH
+        case bch
         
         /// Stellar
-        case XLM
+        case xlm
         
         /// Cosmos
-        case ATOM
+        case atom
         
         /// Ethereum Classic
-        case ETC
+        case etc
+        
+        /// Arbitrum
+        case arb
+        
+        /// Arbitrum Ethereum
+        case arbOne
+        
+        // MARK: - Init
+        
+        public init?(blockchain: Blockchain) {
+            guard let value = Self.allCases.first(where: { $0.blockchain == blockchain }) else {
+                return nil
+            }
+            
+            self = value
+        }
     }
 }
 
@@ -73,7 +91,12 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     }
     
     public var currencySymbol: String {
-        return self.rawValue.uppercased()
+        switch self {
+        case .arbOne:
+            return Self.eth.rawValue.uppercased()
+        default:
+            return self.rawValue.uppercased()
+        }
     }
     
     public var currencySign: String? {
@@ -82,74 +105,63 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     
     public var blockchain: Blockchain {
         switch self {
-        case .BTC:
+        case .btc:
             return .bitcoin
-        case .BNB:
+        case .bnb:
             return .binance
-        case .ETH:
+        case .bsc:
+            return .binanceSmartChain
+        case .eth:
             return .ethereum
-        case .XRP:
+        case .etc:
+            return .ethereumClassic
+        case .xrp:
             return .ripple
-        case .DOGE:
-            return .bitcoin
-        case .ADA:
+        case .doge:
+            return .dogecoin
+        case .ada:
             return .cardano
-        case .SOL:
+        case .sol:
             return .solana
-        case .TRX:
+        case .trx:
             return .tron
-        case .DOT:
+        case .dot:
             return .polkadot
-        case .LTC:
-            return .bitcoin
-        case .TON:
+        case .ltc:
+            return .litecoin
+        case .ton:
             return .toncoin
-        case .BCH:
-            return .bitcoin
-        case .XLM:
+        case .bch:
+            return .bitcoinCash
+        case .xlm:
             return .stellar
-        case .ATOM:
+        case .atom:
             return .cosmos
-        case .ETC:
-            return .ethereum
+        case .arb:
+            return .arbitrum
+        case .arbOne:
+            return .arbitrumOne
         }
     }
     
     public var displayName: String {
-        switch self {
-        default:
-            var name = "\(self)".capitalizingFirstLetter()
-        
-            if let index = name.firstIndex(of: "(") {
-                name = String(name.prefix(upTo: index))
-            }
-        
-            return name
-        }
+        "\(blockchain.displayName) - \(currencySymbol)"
     }
     
     public var decimalCount: Int {
-        switch self.blockchain {
-        case .undefined:
-            return 0
-        case .bitcoin, .binance:
-            return 8
-        case .ethereum:
-            return 18
-        case  .tron, .ripple:
-            return 7
-        case .solana, .toncoin:
-            return 9
-        default:
-            return 0
-        }
+        blockchain.decimalCount
     }
-}
-
-// MARK: - Error
-
-public extension Blockchain.Coin {
-    enum CoinError: Error {
-        case undefined
+    
+    public var contractAddress: String? {
+        nil
     }
+    
+    public func resolveCurrency() throws -> Currency {
+        Currency(self)
+    }
+    
+    public func resolveAmountType() throws -> AmountType {
+        amountType
+    }
+    
 }
