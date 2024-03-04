@@ -8,9 +8,8 @@
 import Foundation
 
 extension Blockchain {
-    /// Main structure blockchain Sdk
     public struct Token: TokenCurrencyDescription {
-        // MARK: - Computed Properties
+        // MARK: - Public Properties
         
         public let id: String
         public let contractAddress: String

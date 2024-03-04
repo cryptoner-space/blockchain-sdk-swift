@@ -125,8 +125,8 @@ extension Blockchain: DecimalValueDescription {
 // MARK: - Coin Resolve
 
 public extension Blockchain {
-    func resolveCoin(by id: String) -> Blockchain.Coin? {
-        Blockchain.Coin.allCases.first(where: { $0.blockchain == self })
+    func resolveCoin(by coinType: Blockchain.CoinType) -> Blockchain.Coin? {
+        .init(coinType: coinType, blockchain: self)
     }
 }
 

@@ -8,8 +8,66 @@
 import Foundation
 
 extension Blockchain {
-    /// Main structure blockchain Sdk
-    public enum Coin: String, Codable, CaseIterable {
+    public struct Coin: CoinCurrencyDescription {
+        // MARK: - Public Properties
+        
+        public let id: String
+        public let currencySymbol: String
+        public let displayName: String
+        public let decimalCount: Int
+        public let currencySign: String?
+        
+        public var currencyType: CurrencyType { .coin }
+        
+        // MARK: - Input Properties
+        
+        public let blockchain: Blockchain
+        
+        // MARK: - Init
+        
+        public init(
+            id: String,
+            contractAddress: String? = nil,
+            currencySymbol: String,
+            displayName: String,
+            decimalCount: Int,
+            currencySign: String,
+            blockchain: Blockchain
+        ) {
+            self.id = id
+            self.currencySymbol = currencySymbol
+            self.displayName = displayName
+            self.decimalCount = decimalCount
+            self.currencySign = currencySign
+            self.blockchain = blockchain
+        }
+        
+        public init(
+            coinType: CoinType,
+            blockchain: Blockchain
+        ) {
+            self.id = coinType.rawValue
+            self.currencySymbol = coinType.currencySymbol
+            self.displayName = coinType.displayName ?? blockchain.displayName
+            self.decimalCount = blockchain.decimalCount
+            self.currencySign = coinType.currencySign
+            self.blockchain = blockchain
+        }
+        
+        // MARK: - Resolving
+        
+        public func resolveCurrency() throws -> Currency {
+            Currency(self)
+        }
+        
+        public func resolveAmountType() throws -> AmountType {
+            amountType
+        }
+    }
+}
+
+extension Blockchain {
+    public enum CoinType: String, Codable, CaseIterable {
         /// Bitcoin
         case btc
         
@@ -61,107 +119,31 @@ extension Blockchain {
         /// Arbitrum
         case arb
         
-        /// Arbitrum Ethereum
-        case arbOne
+        // Computed Properties
         
-        // MARK: - Init
-        
-        public init?(blockchain: Blockchain) {
-            guard let value = Self.allCases.first(where: { $0.blockchain == blockchain }) else {
-                return nil
-            }
-            
-            self = value
-        }
-    }
-}
-
-// MARK: - CoinCurrencyDescription
-
-extension Blockchain.Coin: CoinCurrencyDescription {
-    
-    public typealias ID = String
-    
-    public var id: String {
-        self.rawValue.uppercased()
-    }
-    
-    public var currencyType: CurrencyType {
-        .coin
-    }
-    
-    public var currencySymbol: String {
-        switch self {
-        case .arbOne:
-            return Self.eth.rawValue.uppercased()
-        default:
+        public var currencySymbol: String {
             return self.rawValue.uppercased()
         }
-    }
-    
-    public var currencySign: String? {
-        return nil
-    }
-    
-    public var blockchain: Blockchain {
-        switch self {
-        case .btc:
-            return .bitcoin
-        case .bnb:
-            return .binance
-        case .bsc:
-            return .binanceSmartChain
-        case .eth:
-            return .ethereum
-        case .etc:
-            return .ethereumClassic
-        case .xrp:
-            return .ripple
-        case .doge:
-            return .dogecoin
-        case .ada:
-            return .cardano
-        case .sol:
-            return .solana
-        case .trx:
-            return .tron
-        case .dot:
-            return .polkadot
-        case .ltc:
-            return .litecoin
-        case .ton:
-            return .toncoin
-        case .bch:
-            return .bitcoinCash
-        case .xlm:
-            return .stellar
-        case .atom:
-            return .cosmos
-        case .arb:
-            return .arbitrum
-        case .arbOne:
-            return .arbitrumOne
+        
+        public var currencySign: String? {
+            return nil
+        }
+        
+        public var displayName: String? {
+            return nil
+        }
+        
+        public var blockchains: [Blockchain] {
+            switch self {
+            case .eth:
+                return [.ethereum, .arbitrumOne]
+            case .trx:
+                return [.tron]
+            case .ton:
+                return [.toncoin]
+            default:
+                return []
+            }
         }
     }
-    
-    public var displayName: String {
-        "\(blockchain.displayName)"
-    }
-    
-    public var decimalCount: Int {
-        blockchain.decimalCount
-    }
-    
-    public var contractAddress: String? {
-        nil
-    }
-    
-    public func resolveCurrency() throws -> Currency {
-        Currency(self)
-    }
-    
-    public func resolveAmountType() throws -> AmountType {
-        amountType
-    }
-    
 }
