@@ -83,7 +83,7 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     public typealias ID = String
     
     public var id: String {
-        self.rawValue
+        self.rawValue.uppercased()
     }
     
     public var currencyType: CurrencyType {
@@ -145,7 +145,7 @@ extension Blockchain.Coin: CoinCurrencyDescription {
     }
     
     public var displayName: String {
-        "\(blockchain.displayName) - \(currencySymbol)"
+        "\(blockchain.displayName)"
     }
     
     public var decimalCount: Int {
