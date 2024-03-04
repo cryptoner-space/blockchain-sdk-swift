@@ -11,7 +11,7 @@ final class BlockchainRegistry {
     static let shared: BlockchainRegistry = .init()
     
     private lazy var data: [Model] = {
-        let url = Bundle.main.url(forResource: "registry", withExtension: "json")
+        let url = Bundle.module.url(forResource: "registry", withExtension: "json")
         let data = try! Data(contentsOf: url!)
         let decoder = JSONDecoder()
         let jsonData = try! decoder.decode([Model].self, from: data)

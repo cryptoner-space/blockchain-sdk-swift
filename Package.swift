@@ -28,7 +28,7 @@ let package = Package(
                 .product(name: "BigInt", package: "BigInt")
             ],
             resources: [
-                .process("registry.json")
+                .copy("Resources/registry.json")
             ]
         ),
     ]
