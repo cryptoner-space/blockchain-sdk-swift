@@ -26,6 +26,9 @@ let package = Package(
             name: "BlockchainSdk",
             dependencies: [
                 .product(name: "BigInt", package: "BigInt")
+            ],
+            resources: [
+                .process("registry.json")
             ]
         ),
     ]
