@@ -70,6 +70,10 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable, Identifiable {
     public var id: String {
         self.rawValue
     }
+    
+    var registry: BlockchainRegistry {
+        .shared
+    }
 
 }
 
@@ -85,7 +89,7 @@ public extension Blockchain {
         case .arbitrumOne:
             return rawValue.capitalizingFirstLetter()
         default:
-            return (try? BlockchainRegistry.shared.resolve(for: self).name) ?? ""
+            return (try? registry.resolve(for: self).name) ?? ""
         }
     }
     
@@ -107,9 +111,9 @@ extension Blockchain: DecimalValueDescription {
     public var decimalCount: Int {
         switch self {
         case .arbitrumOne:
-            return (try? BlockchainRegistry.shared.resolve(for: .arbitrum).decimals) ?? 0
+            return (try? registry.resolve(for: .arbitrum).decimals) ?? 0
         default:
-            return (try? BlockchainRegistry.shared.resolve(for: self).decimals) ?? 0
+            return (try? registry.resolve(for: self).decimals) ?? 0
         }
     }
     
