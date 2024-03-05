@@ -215,9 +215,11 @@ extension AmountType: Equatable, Hashable {
         case .coin(let value):
             hasher.combine("coin")
             hasher.combine(value.id.hashValue)
+            hasher.combine(value.blockchain)
         case .token(let value, _):
             hasher.combine("token")
             hasher.combine(value.id.hashValue)
+            hasher.combine(value.blockchain)
         case .fiat(_, let symbol, _):
             hasher.combine("fiat")
             hasher.combine(symbol.hashValue)
