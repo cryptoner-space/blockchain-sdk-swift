@@ -16,10 +16,10 @@ public enum Blockchain: String, Codable, CaseIterable, Hashable, Identifiable {
     case tron
     
     /// Toncoin ✅
-    case toncoin
+    case toncoin = "ton"
     
     /// Arbitrum One ✅
-    case arbitrumOne = "arbitrumOne"
+    case arbitrumOne = "arbitrumone"
     
     // MARK: - Unsupported
     
