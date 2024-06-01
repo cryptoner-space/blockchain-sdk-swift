@@ -87,7 +87,7 @@ public extension Blockchain {
     var displayName: String {
         switch self {
         case .arbitrumOne:
-            return rawValue.capitalizingFirstLetter()
+            return "ArbitrumOne"
         default:
             return (try? registry.resolve(for: self).name) ?? ""
         }

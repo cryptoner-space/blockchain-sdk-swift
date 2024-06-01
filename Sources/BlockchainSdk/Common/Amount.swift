@@ -66,10 +66,7 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
     
     // MARK: - Description & Printing
     
-    public func string(
-        with decimals: Int? = nil,
-        roundingMode: NSDecimalNumber.RoundingMode = .down
-    ) -> String {
+    public func string(with decimals: Int? = nil, roundingMode: NSDecimalNumber.RoundingMode = .down) -> String {
         let decimalsCount = decimals ?? self.decimals
         let formatter = NumberFormatter()
         formatter.locale = Locale.current
@@ -82,6 +79,11 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
         let rounded = value.rounded(scale: decimalsCount, roundingMode: roundingMode)
         return formatter.string(from: rounded as NSDecimalNumber) ??
             "\(rounded) \(currencySymbol)"
+    }
+    
+    public func string(_ formatter: NumberFormatter, roundingMode: NSDecimalNumber.RoundingMode = .down) -> String {
+        let rounded = value.rounded(scale: decimals, roundingMode: roundingMode)
+        return formatter.string(from: rounded as NSDecimalNumber) ?? "\(rounded) \(currencySymbol)"
     }
 }
 
