@@ -43,8 +43,6 @@ public struct Amount: CustomStringConvertible, Equatable, Comparable, Hashable {
             self.decimals = value.blockchain.decimalCount
         case .token(_, let blockchain):
             self.decimals = blockchain.decimalCount
-        case .fiat(let decimals, _, _):
-            self.decimals = decimals
         case .custom(_, let decimals, _, _):
             self.decimals = decimals
         }
@@ -97,8 +95,6 @@ public extension Amount {
             return description.currencySymbol
         case .token(let token, _):
             return token.currencySymbol
-        case .fiat(_, let symbol, _):
-            return symbol
         case .custom(_, _, let symbol, _):
             return symbol
         }
@@ -111,8 +107,6 @@ public extension Amount {
             return description.currencySign
         case .token(let token, _):
             return token.currencySign
-        case .fiat(_, _, let currencySign):
-            return currencySign
         case .custom(_, _, _, let currencySign):
             return currencySign
         }
@@ -199,48 +193,6 @@ public extension Amount {
         }
         
         return encoded?.hex.stripLeadingZeroes().addHexPrefix()
-    }
-}
-
-// MARK: - AmountType
-
-public enum AmountType {
-    case coin(_ description: any CoinCurrencyDescription)
-    case token(_ description: any TokenCurrencyDescription, _ blockchain: Blockchain)
-    case fiat(_ decimals: Int, _ symbol: String, _ sign: String?)
-    case custom(_id: String, _ decimals: Int, _ symbol: String, _ sign: String?)
-}
-
-extension AmountType: Equatable, Hashable {
-    public func hash(into hasher: inout Hasher) {
-        switch self {
-        case .coin(let value):
-            hasher.combine("coin")
-            hasher.combine(value.id.hashValue)
-            hasher.combine(value.blockchain)
-        case .token(let value, _):
-            hasher.combine("token")
-            hasher.combine(value.id.hashValue)
-            hasher.combine(value.blockchain)
-        case .fiat(_, let symbol, _):
-            hasher.combine("fiat")
-            hasher.combine(symbol.hashValue)
-        case .custom(let id, _, let symbol, _):
-            hasher.combine("custom")
-            hasher.combine(id)
-            hasher.combine(symbol.hashValue)
-        }
-    }
-    
-    public static func == (lhs: AmountType, rhs: AmountType) -> Bool {
-        switch (lhs, rhs) {
-        case (.coin(let lv), .coin(let rv)):
-            return lv.id == rv.id
-        case (.token(let lv, _), .token(let rv, _)):
-            return lv.id == rv.id
-        default:
-            return false
-        }
     }
 }
 
